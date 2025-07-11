@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Corefinity Magento Wizard</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <button class="hamburger-menu" onclick="document.querySelector('.sidebar').style.display='block'">&#9776;</button>
+  <div class="header-progress-row">
+    <span class="brand-title">Corefinity Magento<br>Wizard</span>
+    <div class="progress-bar-container">
+      <div class="progress-bar-label">Step 1 of 5</div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" style="width: 20%"></div>
+      </div>
+    </div>
+  </div>
+  <div class="wizard-topbar-row" id="wizard-topbar-row"
+    style="display: none; justify-content: flex-end; align-items: center; gap: 8px; padding: 12px 32px 0 0; width: 100%;">
+    <button class="wizard-back-btn" id="wizard-topbar-back">Back</button>
+    <button class="wizard-next-btn" id="wizard-topbar-next">Next Step</button>
+  </div>
+  <div class="wizard-body-row">
+    <aside class="sidebar">
+      <button class="close-sidebar" onclick="document.querySelector('.sidebar').style.display='none'">&times;</button>
+      <nav class="wizard-steps">
+        <button class="step-btn" id="step-store-info" data-step="1"><span class="icon">&#128196;</span> Store
+          Info</button>
+        <button class="step-btn" id="step-system" data-step="2"><span class="icon">&#9881;</span> System</button>
+        <button class="step-btn" id="step-styles" data-step="3"><span class="icon">&#127912;</span> Styles</button>
+        <button class="step-btn" id="step-styles" data-step="4"><span class="icon">&#128295;</span> Plugin
+          Settings</button>
+        <button class="step-btn" id="step-summary" data-step="5"><span class="icon">&#128221;</span> Summary</button>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="footer-btn"><span class="icon">&#128100;</span> Profile</button>
+        <button class="footer-btn"><span class="icon">&#127760;</span> My Sites</button>
+        <button class="footer-btn "style="margin-bottom:5px"><span class="icon">&#128682;</span> Logout</button>
+      </div>
+    </aside>
+    <main class="wizard-main">
+      <div id="wizard-step-content">
+        <div class="wizard-card" id="store-info-card">
+          <h2 class="wizard-title">Lets Build Your Fresh Magento Website</h2>
+          <p class="wizard-desc">Corefinity Magento Wizard is a no-code solution for building and deploying a fully
+            functional Magento story. Simply input some basic information throughout the guided steps to configure your
+            store. Including our approved third-parties ensuring your site it tailored to you and your Magento Store</p>
+          <form class="wizard-form">
+            <label for="storeName" class="wizard-label">Store Name</label>
+            <div class="wizard-input-group">
+              <input type="text" id="storeName" name="storeName" class="wizard-input" maxlength="14"
+                value="Sample Store" />
+              <span class="wizard-input-check">&#10003;</span>
+            </div>
+            <div class="wizard-input-meta">
+              <span class="wizard-char-count">12 / 14</span>
+              <span class="wizard-name-available">Store name Available</span>
+            </div>
+            <div class="wizard-info-box">
+              <span class="wizard-info-icon">&#9888;</span>
+              <div>
+                <strong>Licensing</strong><br>
+                Depending on your modules and theme, you may need to add your license keys to demo and/or download your
+                development-ready package.
+              </div>
+            </div>
+            <div class="wizard-form-actions">
+              <button type="submit" id="store-next-btn" class="wizard-next-btn">Next Step</button>
+            </div>
+          </form>
+        </div>
+        <div class="wizard-step-system hidden">
+          <div class="platform-card wizard-card" id="system-step-card">
+            <h2 class="wizard-title">Environment Setup</h2>
+            <p class="wizard-desc">Select your Platform</p>
+            <div class="platform-options">
+              <div class="platform-option">
+                <div class="platform-info-box">
+                  <img src="Screenshot 2025-07-09 221816.png" alt="Magento Logo" class="platform-logo" />
+                  <div>Magento</div>
+                </div>
+              </div>
+              <div class="platform-option">
+                <div class="platform-info-box">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Laravel.svg" alt="Laravel Logo"
+                    class="platform-logo" />
+                  <div>Laravel</div>
+                </div>
+              </div>
+              <div class="platform-option">
+                <div class="platform-info-box">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/9/98/WordPress_blue_logo.svg"
+                    alt="WordPress Logo" class="platform-logo" />
+                  <div>WordPress</div>
+                </div>
+              </div>
+            </div>
+            <div id="platform-version-container" class="hidden">
+              <label for="platform-version" class="wizard-label" style="margin-top:24px;display:block;">Select
+                Version</label>
+              <div class="custom-dropdown" id="platform-version-dropdown">
+                <div class="custom-dropdown-selected" id="custom-dropdown-selected">Select a version</div>
+                <div class="custom-dropdown-options" id="custom-dropdown-options" style="display:none;"></div>
+              </div>
+            </div>
+
+            <!-- Version Dependencies Section -->
+            <div class="version-dependencies-section hidden">
+              <h3 class="version-dependencies-title">Version Dependencies</h3>
+              <div class="version-dependencies-cards">
+                <div class="version-dependency-card">
+                  <div class="dependency-icon">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" alt="PHP" />
+                  </div>
+                  <div class="dependency-label" id="php-version-label">PHP Version 8.0</div>
+                </div>
+                <div class="version-dependency-card">
+                  <div class="dependency-icon">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg"
+                      alt="MariaDB" />
+                  </div>
+                  <div class="dependency-label" id="mariadb-version-label">MariaDB Version 10.3</div>
+                </div>
+                <div class="version-dependency-card">
+                  <div class="dependency-icon">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg"
+                      alt="Redis" />
+                  </div>
+                  <div class="dependency-label" id="redis-version-label">Redis Version 6.0</div>
+                </div>
+                <div class="version-dependency-card">
+                  <div class="dependency-icon">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/elastic/elastic-original.svg"
+                      alt="OpenSearch" />
+                  </div>
+                  <div class="dependency-label" id="opensearch-version-label">OpenSearch Version N/A</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="wizard-step hidden" id="styles-step">
+
+          <div class="wizard-card" id="styles-step-card">
+            <div class="styles-tabs">
+              <button class="styles-tab active" data-tab="theme"><span class="tab-icon">🎨</span> Theme</button>
+              <button class="styles-tab" data-tab="logo"><span class="tab-icon">🖼</span> Logo</button>
+              <button class="styles-tab" data-tab="colours"><span class="tab-icon">🖌</span> Colours</button>
+              <button class="styles-tab" data-tab="font"><span class="tab-icon">𝐀</span> Font</button>
+            </div>
+            <div class="styles-tab-content" id="styles-tab-theme">
+              <!-- <div id="theme-preview-message" class="theme-preview-message">Please Select a Theme</div> -->
+              <div class="wizard-card">
+                <h2 class="wizard-title" style="margin-top:24px; margin-bottom:20px;">Choose Your Frontend Framework
+                </h2>
+                <div class="wizard-label" style="margin-bottom:18px; margin-top:10px;">Select Your Theme</div>
+                <div class="theme-options">
+                  <div class="theme-card" data-theme="luma">
+                    <label class="theme-radio-label">
+                      <div class="theme-info">
+                        <img src="https://via.placeholder.com/60x60?text=Luma+Logo" alt="Luma Theme Logo"
+                          class="theme-logo" />
+                        <input type="radio" name="theme" value="luma" class="theme-radio" />
+                        <div class="theme-text-col">
+                          <div class="theme-title">Luma</div>
+                          <div class="theme-desc">Magento's default frontend theme, offering a traditional setup with
+                            built-in compatibility for most extensions. It's a familiar choice but can be slower and
+                            more resource-intensive.</div>
+                        </div>
+                      </div>
+                    </label>
+                  </div>
+                  <div class="theme-card" data-theme="hyva">
+                    <label class="theme-radio-label">
+                      <div class="theme-info">
+                        <img src="https://via.placeholder.com/60x60?text=Hyva+Logo" alt="Hyva Theme Logo"
+                          class="theme-logo" />
+                        <input type="radio" name="theme" value="hyva" class="theme-radio" />
+                        <div class="theme-text-col">
+                          <div class="theme-title">Hyvä Theme <span class="theme-license">Licence Key Needed</span>
+                          </div>
+                          <div class="theme-desc">A modern, lightweight alternative designed for speed and performance.
+                            Hyvä significantly improves site load times and user experience while reducing complexity.
+                          </div>
+                        </div>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+                <button class="theme-preview-btn" id="theme-preview-btn-main">Preview Theme</button>
+                <div class="theme-image-preview" id="theme-preview-image">
+                </div>
+              </div>
+            </div>
+            <div class="styles-tab-content hidden" id="styles-tab-logo">
+              <div class="wizard-card">
+                <h2 class="wizard-title" style="margin-top:20px;">Logos</h2>
+                <div class="wizard-label" style="margin-bottom:18px;">Upload both formats of your companies logo</div>
+                <form class="logo-upload-form">
+                  <label class="wizard-label" for="desktop-logo">Desktop Logo</label>
+                  <div class="custom-file-input">
+                    <label for="desktop-logo" class="file-btn">Choose file</label>
+                    <span class="file-label" id="desktop-filename">No file chosen</span>
+                    <input type="file" id="desktop-logo" name="desktop-logo" class="custom-file-input"
+                      accept="image/png, image/jpeg, image/jpg, image/svg+xml" />
+                  </div>
+                  <span class="custom-file-filename"></span>
+                  <div class="logo-info-text">Minimum size: 600x300px. Allowed formats: jpg, jpeg, png, svg.</div>
+                  <img id="desktop-logo-preview" src="" alt="Desktop logo preview"
+                    style="width:220px; margin:12px 0 24px 0; border-radius:8px; display:none;" />
+                  <label class="wizard-label" for="mobile-logo">Mobile Logo</label>
+                  <div class="custom-file-input">
+                    <label for="mobile-logo" class="file-btn">Choose file</label>
+                    <span class="file-label" id="mobile-filename">No file chosen</span>
+                    <input type="file" id="mobile-logo" name="mobile-logo" class="custom-file-input"
+                      accept="image/png, image/jpeg, image/jpg, image/svg+xml" />
+                  </div>
+                  <span class="custom-file-filename"></span>
+                  <div class="logo-info-text">Minimum size: 100x50px. Allowed formats: jpg, jpeg, png, svg.</div>
+                  <img id="mobile-logo-preview" src="" alt="Mobile logo preview"
+                    style="width:120px; margin:12px 0 24px 0; border-radius:8px; display:none;" />
+                  <button class="theme-preview-btn" id="logo-preview-btn" style="width:100%; margin-top:18px;">Preview
+                    Theme</button>
+                </form>
+              </div>
+            </div>
+            <div class="styles-tab-content hidden" id="styles-tab-colours">
+              <div class="wizard-card">
+                <h2 class="wizard-title" style="margin-top:20px;">Logos</h2>
+                <div class="wizard-label" style="margin-bottom:18px;">Upload both formats of your companies logo</div>
+                <div class="colours-row">
+                  <div class="colour-col">
+                    <div class="colour-label">PRIMARY COLOUR</div>
+                    <div class="colour-circle colour-primary" id="primary-colour-picker"></div>
+                    <div class="colour-desc">Used for main actions and highlights</div>
+                  </div>
+                  <div class="colour-col">
+                    <div class="colour-label">SECONDARY COLOUR</div>
+                    <div class="colour-circle colour-secondary" id="secondary-colour-picker"></div>
+                    <div class="colour-desc">Used for secondary buttons and accents</div>
+                  </div>
+                  <div class="colour-col">
+                    <div class="colour-label">TERTIARY COLOUR</div>
+                    <div class="colour-circle colour-tertiary" id="tertiary-colour-picker"></div>
+                    <div class="colour-desc">Used for alerts and informational messages</div>
+                  </div>
+                </div>
+                <!-- Inline small circles row, add IDs for JS -->
+                <div class="colours-row colours-row-small">
+                  <div class="colour-circle colour-primary colour-small colour-picker" id="primary-inline-circle"
+                    data-type="primary"></div>
+                  <div class="colour-popup" id="primary-colour-popup">
+                    <div class="colour-palette">
+                      <div class="colour-swatch" data-color="#6c5ce7"></div>
+                      <div class="colour-swatch" data-color="#a29bfe"></div>
+                      <div class="colour-swatch" data-color="#0984e3"></div>
+                      <div class="colour-swatch" data-color="#74b9ff"></div>
+                      <div class="colour-swatch" data-color="#00b894"></div>
+                      <div class="colour-swatch" data-color="#55efc4"></div>
+                      <div class="colour-swatch" data-color="#fdcb6e"></div>
+                      <div class="colour-swatch" data-color="#ffeaa7"></div>
+                      <div class="colour-swatch" data-color="#e17055"></div>
+                      <div class="colour-swatch" data-color="#fab1a0"></div>
+                      <div class="colour-swatch" data-color="#d63031"></div>
+                      <div class="colour-swatch" data-color="#ff7675"></div>
+                      <div class="colour-swatch" data-color="#636e72"></div>
+                      <div class="colour-swatch" data-color="#b2bec3"></div>
+                      <div class="colour-swatch" data-color="#2d3436"></div>
+                      <div class="colour-swatch" data-color="#fff"></div>
+                      <div class="colour-swatch" data-color="#000"></div>
+                      <div class="colour-swatch" data-color="#f5f6fa"></div>
+                      <div class="colour-swatch" data-color="#fbc531"></div>
+                      <div class="colour-swatch" data-color="#4cd137"></div>
+                      <div class="colour-swatch" data-color="#487eb0"></div>
+                      <div class="colour-swatch" data-color="#8c7ae6"></div>
+                      <div class="colour-swatch" data-color="#e84118"></div>
+                      <div class="colour-swatch" data-color="#c23616"></div>
+                    </div>
+                  </div>
+                  <div class="colour-circle colour-secondary colour-small colour-picker" id="secondary-inline-circle"
+                    data-type="secondary"></div>
+                  <div class="colour-popup" id="secondary-colour-popup">
+                    <div class="colour-palette">
+                      <div class="colour-swatch" data-color="#6c5ce7"></div>
+                      <div class="colour-swatch" data-color="#a29bfe"></div>
+                      <div class="colour-swatch" data-color="#0984e3"></div>
+                      <div class="colour-swatch" data-color="#74b9ff"></div>
+                      <div class="colour-swatch" data-color="#00b894"></div>
+                      <div class="colour-swatch" data-color="#55efc4"></div>
+                      <div class="colour-swatch" data-color="#fdcb6e"></div>
+                      <div class="colour-swatch" data-color="#ffeaa7"></div>
+                      <div class="colour-swatch" data-color="#e17055"></div>
+                      <div class="colour-swatch" data-color="#fab1a0"></div>
+                      <div class="colour-swatch" data-color="#d63031"></div>
+                      <div class="colour-swatch" data-color="#ff7675"></div>
+                      <div class="colour-swatch" data-color="#636e72"></div>
+                      <div class="colour-swatch" data-color="#b2bec3"></div>
+                      <div class="colour-swatch" data-color="#2d3436"></div>
+                      <div class="colour-swatch" data-color="#fff"></div>
+                      <div class="colour-swatch" data-color="#000"></div>
+                      <div class="colour-swatch" data-color="#f5f6fa"></div>
+                      <div class="colour-swatch" data-color="#fbc531"></div>
+                      <div class="colour-swatch" data-color="#4cd137"></div>
+                      <div class="colour-swatch" data-color="#487eb0"></div>
+                      <div class="colour-swatch" data-color="#8c7ae6"></div>
+                      <div class="colour-swatch" data-color="#e84118"></div>
+                      <div class="colour-swatch" data-color="#c23616"></div>
+                    </div>
+                  </div>
+                  <div class="colour-circle colour-tertiary colour-small colour-picker" id="tertiary-inline-circle"
+                    data-type="tertiary"></div>
+                  <div class="colour-popup" id="tertiary-colour-popup">
+                    <div class="colour-palette">
+                      <div class="colour-swatch" data-color="#6c5ce7"></div>
+                      <div class="colour-swatch" data-color="#a29bfe"></div>
+                      <div class="colour-swatch" data-color="#0984e3"></div>
+                      <div class="colour-swatch" data-color="#74b9ff"></div>
+                      <div class="colour-swatch" data-color="#00b894"></div>
+                      <div class="colour-swatch" data-color="#55efc4"></div>
+                      <div class="colour-swatch" data-color="#fdcb6e"></div>
+                      <div class="colour-swatch" data-color="#ffeaa7"></div>
+                      <div class="colour-swatch" data-color="#e17055"></div>
+                      <div class="colour-swatch" data-color="#fab1a0"></div>
+                      <div class="colour-swatch" data-color="#d63031"></div>
+                      <div class="colour-swatch" data-color="#ff7675"></div>
+                      <div class="colour-swatch" data-color="#636e72"></div>
+                      <div class="colour-swatch" data-color="#b2bec3"></div>
+                      <div class="colour-swatch" data-color="#2d3436"></div>
+                      <div class="colour-swatch" data-color="#fff"></div>
+                      <div class="colour-swatch" data-color="#000"></div>
+                      <div class="colour-swatch" data-color="#f5f6fa"></div>
+                      <div class="colour-swatch" data-color="#fbc531"></div>
+                      <div class="colour-swatch" data-color="#4cd137"></div>
+                      <div class="colour-swatch" data-color="#487eb0"></div>
+                      <div class="colour-swatch" data-color="#8c7ae6"></div>
+                      <div class="colour-swatch" data-color="#e84118"></div>
+                      <div class="colour-swatch" data-color="#c23616"></div>
+                    </div>
+                  </div>
+                </div>
+                <button class="theme-preview-btn" id="colours-preview-btn" style="width:100%; margin-top:32px;">Preview
+                  Theme</button>
+              </div>
+            </div>
+            <div class="styles-tab-content hidden" id="styles-tab-font">
+              <div class="wizard-card">
+                <h2 class="wizard-title" style="margin-top:20px;">Fonts</h2>
+                <div style="margin-bottom:18px; margin-top:18px;">
+                  <label style="font-size:1.08rem; font-weight:500; display:flex; align-items:center; gap:8px;">
+                    <input type="checkbox" id="default-font-checkbox" checked
+                      style="accent-color:#2563eb; width:18px; height:18px; margin-right:6px;" />
+                    Use Default Theme Font
+                  </label>
+                </div>
+                <div style="position:relative;">
+                  <div class="font-dropdown-trigger" id="font-dropdown-trigger" tabindex="0">
+                    Montserrat
+                  </div>
+                  <span class="font-search-arrow" id="font-search-arrow">&#9662;</span>
+                  <div class="font-dropdown hidden" id="font-dropdown">
+                    <div class="font-option" data-font="Montserrat" style="font-family: 'Montserrat', sans-serif;">
+                      Montserrat</div>
+                    <div class="font-option" data-font="Roboto" style="font-family: 'Roboto', sans-serif;">Roboto</div>
+                    <div class="font-option" data-font="Lato" style="font-family: 'Lato', sans-serif;">Lato</div>
+                    <div class="font-option" data-font="Open Sans" style="font-family: 'Open Sans', sans-serif;">Open
+                      Sans</div>
+                    <div class="font-option" data-font="Poppins" style="font-family: 'Poppins', sans-serif;">Poppins
+                    </div>
+                  </div>
+                </div>
+                <!-- Font preview box -->
+                <div id="font-preview-box"
+                  style="background: #f7f8fa; border-radius: 8px; border: 1.5px solid #ececec; padding: 13px 16px; font-size: 1.08rem; color: #222; margin-top: 12px; min-height: 32px;">
+                </div>
+              </div>
+            </div>
+            <!-- Modal for theme preview -->
+            <div class="modal-overlay" id="theme-preview-modal" style="display:none;">
+              <div class="modal-content">
+                <div class="modal-tabs">
+                  <button class="modal-tab active" data-modal-tab="desktop">Desktop</button>
+                  <button class="modal-tab" data-modal-tab="mobile">Mobile</button>
+                  <button class="modal-close-btn" id="modal-close-btn">Close</button>
+                </div>
+                <div class="modal-preview-content" id="modal-preview-desktop">
+                  <div class="magento-product-preview-real">
+                    <div class="magento-header-real">
+                      <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Magento_Logo.svg" alt="Magento Logo"
+                        class="magento-logo-real" />
+                      <nav class="magento-nav-real">
+                        <a href="#">What's New</a>
+                        <div class="magento-nav-dropdown">Women <span class="magento-nav-arrow">&#9660;</span></div>
+                        <div class="magento-nav-dropdown">Men <span class="magento-nav-arrow">&#9660;</span></div>
+                        <div class="magento-nav-dropdown">Gear <span class="magento-nav-arrow">&#9660;</span></div>
+                        <div class="magento-nav-dropdown">Training <span class="magento-nav-arrow">&#9660;</span></div>
+                        <a href="#">Sale</a>
+                      </nav>
+                      <div class="magento-header-icons-real">
+                        <svg class="magento-icon-real" width="22" height="22" fill="none" stroke="#7d7d7d"
+                          stroke-width="2" viewBox="0 0 24 24">
+                          <circle cx="11" cy="11" r="8" />
+                          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                        </svg>
+                        <svg class="magento-icon-real" width="22" height="22" fill="#7d7d7d" viewBox="0 0 24 24">
+                          <circle cx="12" cy="8" r="4" />
+                          <path d="M4 20c0-4 8-4 8-4s8 0 8 4" />
+                        </svg>
+                        <svg class="magento-icon-real" width="22" height="22" fill="#7d7d7d" viewBox="0 0 24 24">
+                          <path d="M6 6h15l-1.5 9h-13z" />
+                          <circle cx="9" cy="21" r="1" />
+                          <circle cx="19" cy="21" r="1" />
+                        </svg>
+                      </div>
+                    </div>
+                    <div class="magento-breadcrumbs-real">Home / Aim Analog Watch</div>
+                    <div class="magento-product-main-real">
+                      <div class="magento-product-image-real">
+                        <img src="https://cdn.pixabay.com/photo/2012/04/13/00/22/watch-31201_1280.png"
+                          alt="Aim Analog Watch" />
+                      </div>
+                      <div class="magento-product-info-real">
+                        <h1 class="magento-product-title-real">Aim Analog Watch</h1>
+                        <div class="magento-rating-real">
+                          <svg width="22" height="22" viewBox="0 0 24 24" fill="#FFD600">
+                            <polygon points="12,2 15,9 22,9.3 17,14.1 18.5,21 12,17.5 5.5,21 7,14.1 2,9.3 9,9" />
+                          </svg>
+                          <svg width="22" height="22" viewBox="0 0 24 24" fill="#FFD600">
+                            <polygon points="12,2 15,9 22,9.3 17,14.1 18.5,21 12,17.5 5.5,21 7,14.1 2,9.3 9,9" />
+                          </svg>
+                          <svg width="22" height="22" viewBox="0 0 24 24" fill="#FFD600">
+                            <polygon points="12,2 15,9 22,9.3 17,14.1 18.5,21 12,17.5 5.5,21 7,14.1 2,9.3 9,9" />
+                          </svg>
+                          <svg width="22" height="22" viewBox="0 0 24 24" fill="#FFD600">
+                            <polygon points="12,2 15,9 22,9.3 17,14.1 18.5,21 12,17.5 5.5,21 7,14.1 2,9.3 9,9" />
+                          </svg>
+                          <svg width="22" height="22" viewBox="0 0 24 24" fill="#E0E0E0">
+                            <polygon points="12,2 15,9 22,9.3 17,14.1 18.5,21 12,17.5 5.5,21 7,14.1 2,9.3 9,9" />
+                          </svg>
+                        </div>
+                        <div class="magento-product-desc-real">
+                          Stay light-years ahead of the competition with our Aim Analog Watch. The flexible, rubberized
+                          strap is contoured to conform to the shape of your wrist for a comfortable all-day fit. The
+                          face features three illuminated hands, a digital read-out of the current time, and stopwatch
+                          functions.
+                        </div>
+                        <div class="magento-stock-real"><span class="magento-stock-dot-real"></span> In stock</div>
+                        <table class="magento-product-attrs-real">
+                          <tr>
+                            <td>SKU</td>
+                            <td>24-MG04</td>
+                          </tr>
+                          <tr>
+                            <td>Gender</td>
+                            <td>Men</td>
+                          </tr>
+                          <tr>
+                            <td>Material</td>
+                            <td>Plastic, Rubber</td>
+                          </tr>
+                        </table>
+                        <div class="magento-product-price-real">€45.00</div>
+                        <div class="magento-product-actions-real">
+                          <input type="number" value="1" min="1" class="magento-qty-input-real" disabled />
+                          <button class="magento-add-to-cart-real" disabled><svg width="20" height="20" fill="#fff"
+                              viewBox="0 0 24 24">
+                              <path d="M6 6h15l-1.5 9h-13z" />
+                              <circle cx="9" cy="21" r="1" />
+                              <circle cx="19" cy="21" r="1" />
+                            </svg> Add to Cart</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-preview-content hidden" id="modal-preview-mobile">
+                  <div class="magento-mobile-preview-real">
+                    <div class="magento-mobile-header-real">
+                      <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Magento_Logo.svg" alt="Magento Logo"
+                        class="magento-mobile-logo-real" />
+                      <div class="magento-mobile-header-icons-real">
+                        <svg class="magento-mobile-hamburger" width="28" height="28" viewBox="0 0 24 24" fill="none"
+                          stroke="#e53935" stroke-width="2">
+                          <line x1="3" y1="6" x2="21" y2="6" />
+                          <line x1="3" y1="12" x2="21" y2="12" />
+                          <line x1="3" y1="18" x2="21" y2="18" />
+                        </svg>
+                        <svg class="magento-mobile-icon-real" width="22" height="22" fill="none" stroke="#e53935"
+                          stroke-width="2" viewBox="0 0 24 24">
+                          <circle cx="11" cy="11" r="8" />
+                          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                        </svg>
+                        <svg class="magento-mobile-icon-real" width="22" height="22" fill="#e53935" viewBox="0 0 24 24">
+                          <circle cx="12" cy="8" r="4" />
+                          <path d="M4 20c0-4 8-4 8-4s8 0 8 4" />
+                        </svg>
+                        <svg class="magento-mobile-icon-real" width="22" height="22" fill="#e53935" viewBox="0 0 24 24">
+                          <path d="M6 6h15l-1.5 9h-13z" />
+                          <circle cx="9" cy="21" r="1" />
+                          <circle cx="19" cy="21" r="1" />
+                        </svg>
+                      </div>
+                    </div>
+                    <div class="magento-mobile-breadcrumbs-real">Home / Aim Analog Watch</div>
+                    <div class="magento-mobile-product-title-real">Aim Analog Watch</div>
+                    <div class="magento-mobile-product-image-real">
+                      <img src="https://cdn.pixabay.com/photo/2012/04/13/00/22/watch-31201_1280.png"
+                        alt="Aim Analog Watch" />
+                    </div>
+                    <div class="magento-mobile-rating-desc-row">
+                      <span class="magento-mobile-rating-real">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="#FFD600">
+                          <polygon points="12,2 15,9 22,9.3 17,14.1 18.5,21 12,17.5 5.5,21 7,14.1 2,9.3 9,9" />
+                        </svg>
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="#FFD600">
+                          <polygon points="12,2 15,9 22,9.3 17,14.1 18.5,21 12,17.5 5.5,21 7,14.1 2,9.3 9,9" />
+                        </svg>
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="#FFD600">
+                          <polygon points="12,2 15,9 22,9.3 17,14.1 18.5,21 12,17.5 5.5,21 7,14.1 2,9.3 9,9" />
+                        </svg>
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="#FFD600">
+                          <polygon points="12,2 15,9 22,9.3 17,14.1 18.5,21 12,17.5 5.5,21 7,14.1 2,9.3 9,9" />
+                        </svg>
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="#E0E0E0">
+                          <polygon points="12,2 15,9 22,9.3 17,14.1 18.5,21 12,17.5 5.5,21 7,14.1 2,9.3 9,9" />
+                        </svg>
+                      </span>
+                    </div>
+                    <div class="magento-mobile-desc-firstline">Stay light-years ahead of the competition with our</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="wizard-step hidden" id="plugin-step">
+          <div class="wizard-card">
+            <div class="plugin-settings-main">
+              <h2 class="wizard-title" style="margin-top:0;">Plugins</h2>
+              <div class="wizard-label" style="margin-bottom:24px;">Select the plugins you want to enable</div>
+              <div class="plugin-section">
+                <h3 class="plugin-section-title">Payments</h3>
+                <div class="plugin-section-desc">Magento payment service provider extensions enable secure payment
+                  processing, offering multiple payment methods, fraud prevention, and integration with various payment
+                  gateways.</div>
+                <div class="payment-cards-group">
+                  <div class="plugin-card payment-card" data-payment="ppcp">
+                    <div class="plugin-card-icon"><img
+                        src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal"
+                        style="height:22px;" /></div>
+                    <div class="plugin-card-info">
+                      <div class="plugin-card-title">PPCP</div>
+                      <div class="plugin-card-desc">PayPal Complete Payments (PPCP) - A full-stack payment solution
+                        offering seamless checkout, fraud protection, and global payment method support.</div>
+                    </div>
+                    <button class="plugin-card-btn payment-add-btn">Add</button>
+                  </div>
+                  <div class="plugin-card payment-card" data-payment="fastlane">
+                    <div class="plugin-card-icon plugin-card-icon-m">F</div>
+                    <div class="plugin-card-info">
+                      <div class="plugin-card-title">Fastlane</div>
+                      <div class="plugin-card-desc">PayPal Fastlane – A one-click checkout solution that streamlines
+                        transactions and improves conversion rates for merchants.</div>
+                    </div>
+                    <button class="plugin-card-btn payment-add-btn">Add</button>
+                  </div>
+                  <div class="plugin-card payment-card" data-payment="mollie">
+                    <div class="plugin-card-icon plugin-card-icon-m">M</div>
+                    <div class="plugin-card-info">
+                      <div class="plugin-card-title">Mollie</div>
+                      <div class="plugin-card-desc">Mollie enables businesses to accept multiple payment options with
+                        transparent pricing and a user-friendly API.</div>
+                    </div>
+                    <button class="plugin-card-btn payment-add-btn">Add</button>
+                  </div>
+                </div>
+              </div>
+              <div class="plugin-section">
+                <h3 class="plugin-section-title">Address Finder</h3>
+                <div class="plugin-section-desc">An address finder helps users quickly auto-complete their address
+                  during checkout, reducing errors and speeding up the process with suggested address options.</div>
+                <div class="address-cards-group">
+                  <div class="plugin-card address-card" data-address="loqate">
+                    <div class="plugin-card-icon plugin-card-icon-m">M</div>
+                    <div class="plugin-card-info">
+                      <div class="plugin-card-title">Loqate</div>
+                      <div class="plugin-card-desc">Loqate – A global address verification and geolocation service that
+                        ensures accurate customer data for smooth checkouts and deliveries.</div>
+                    </div>
+                    <button class="plugin-card-btn address-add-btn">Add</button>
+                  </div>
+                </div>
+              </div>
+              <div class="plugin-section">
+                <h3 class="plugin-section-title">Email & SMS</h3>
+                <div class="plugin-section-desc">SMS and email Magento extensions offer automated notifications, order
+                  updates, and marketing campaigns to engage customers and improve communication.</div>
+                <div class="email-cards-group">
+                  <div class="plugin-card email-card" data-email="klaviyo">
+                    <div class="plugin-card-icon plugin-card-icon-m">M</div>
+                    <div class="plugin-card-info">
+                      <div class="plugin-card-title">Klaviyo</div>
+                      <div class="plugin-card-desc">Klaviyo Email – A data-driven email marketing platform that enables
+                        ecommerce brands to create personalised, automated customer engagement campaigns.</div>
+                    </div>
+                    <button class="plugin-card-btn email-add-btn">Add</button>
+                  </div>
+                  <div class="plugin-card email-card" data-email="dotdigital">
+                    <div class="plugin-card-icon plugin-card-icon-m">M</div>
+                    <div class="plugin-card-info">
+                      <div class="plugin-card-title">DotDigital</div>
+                      <div class="plugin-card-desc">DotDigital Email – A marketing automation platform specialising in
+                        personalised email campaigns, customer segmentation, and omnichannel engagement.</div>
+                    </div>
+                    <button class="plugin-card-btn email-add-btn">Add</button>
+                  </div>
+                </div>
+              </div>
+              <div class="plugin-section">
+                <h3 class="plugin-section-title">Tax & Shipping</h3>
+                <div class="plugin-section-desc">Magento Tax & Shipping extensions automate tax calculations, manage
+                  shipping rates, offer real-time shipping options, and ensure accurate pricing for a seamless checkout
+                  experience.</div>
+                <div class="tax-cards-group">
+                  <div class="plugin-card tax-card" data-tax="shipperhq">
+                    <div class="plugin-card-icon plugin-card-icon-m">M</div>
+                    <div class="plugin-card-info">
+                      <div class="plugin-card-title">ShipperHQ</div>
+                      <div class="plugin-card-desc">ShipperHQ – A shipping rate management platform that optimises
+                        checkout with real-time shipping rates, delivery options, and custom shipping rules.</div>
+                    </div>
+                    <button class="plugin-card-btn tax-add-btn">Add</button>
+                  </div>
+                </div>
+              </div>
+              <div class="plugin-section">
+                <h3 class="plugin-section-title">Reviews & UGC</h3>
+                <div class="plugin-section-desc">Magento Reviews & UGC extensions enable customers to leave product
+                  reviews, ratings, and user-generated content, boosting trust, engagement, and conversion rates.</div>
+                <div class="reviews-cards-group">
+                  <div class="plugin-card reviews-card" data-reviews="yotpo">
+                    <div class="plugin-card-icon plugin-card-icon-m">M</div>
+                    <div class="plugin-card-info">
+                      <div class="plugin-card-title">Yotpo Reviews</div>
+                      <div class="plugin-card-desc">Yotpo Reviews – A customer review platform that helps brands
+                        collect, display, and leverage authentic reviews to build trust and drive conversions.</div>
+                    </div>
+                    <button class="plugin-card-btn reviews-add-btn">Add</button>
+                  </div>
+                  <div class="plugin-card reviews-card" data-reviews="reviewsio">
+                    <div class="plugin-card-icon plugin-card-icon-m">M</div>
+                    <div class="plugin-card-info">
+                      <div class="plugin-card-title">Reviews.io</div>
+                      <div class="plugin-card-desc">Reviews.io – A review collection and management platform that
+                        enables businesses to gather customer feedback and showcase authentic ratings.</div>
+                    </div>
+                    <button class="plugin-card-btn reviews-add-btn">Add</button>
+                  </div>
+                </div>
+              </div>
+              <div class="plugin-section">
+                <h3 class="plugin-section-title">Search, Merchandising & Recommendations</h3>
+                <div class="plugin-section-desc">Magento search, merchandising & recommendations extensions improve
+                  product discovery with advanced search, personalised recommendations, and targeted product displays
+                  for a better user experience.</div>
+                <div class="search-cards-group">
+                  <div class="plugin-card search-card" data-search="klevu">
+                    <div class="plugin-card-icon plugin-card-icon-m">M</div>
+                    <div class="plugin-card-info">
+                      <div class="plugin-card-title">Klevu</div>
+                      <div class="plugin-card-desc">Klevu - An AI-powered site search and product discovery solution
+                        that enhances ecommerce experiences with smart search, merchandising, and recommendations.</div>
+                    </div>
+                    <button class="plugin-card-btn search-add-btn">Add</button>
+                  </div>
+                  <div class="plugin-card search-card" data-search="nosto">
+                    <div class="plugin-card-icon plugin-card-icon-m">M</div>
+                    <div class="plugin-card-info">
+                      <div class="plugin-card-title">Nosto</div>
+                      <div class="plugin-card-desc">Nosto - A personalisation platform that delivers AI-driven product
+                        recommendations, dynamic content, and tailored shopping experiences to boost conversions.</div>
+                    </div>
+                    <button class="plugin-card-btn search-add-btn">Add</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="script.js"></script>
+</body>
+
+</html>
