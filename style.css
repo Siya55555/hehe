@@ -1,696 +1,2597 @@
-<!DOCTYPE html>
-<html lang="en">
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Corefinity Magento Wizard</title>
-  <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600&display=swap" rel="stylesheet">
-</head>
+input,
+select,
+textarea {
+  font-size: 16px;
+}
 
-<body>
-  <button class="hamburger-menu" onclick="document.querySelector('.sidebar').style.display='block'">&#9776;</button>
-  <div class="header-progress-row">
-    <span class="brand-title">Corefinity Magento<br>Wizard</span>
-    <div class="progress-bar-container">
-      <div class="progress-bar-label">Step 1 of 5</div>
-      <div class="progress-bar-bg">
-        <div class="progress-bar-fill" style="width: 20%"></div>
-      </div>
-    </div>
-  </div>
-  <div class="wizard-topbar-row" id="wizard-topbar-row"
-    style="display: none; justify-content: flex-end; align-items: center; gap: 8px; padding: 12px 32px 0 0; width: 100%;">
-    <button class="wizard-back-btn" id="wizard-topbar-back">Back</button>
-    <button class="wizard-next-btn" id="wizard-topbar-next">Next Step</button>
-  </div>
-  <div class="wizard-body-row">
-    <aside class="sidebar">
-      <button class="close-sidebar" onclick="document.querySelector('.sidebar').style.display='none'">&times;</button>
-      <nav class="wizard-steps">
-        <button class="step-btn" id="step-store-info" data-step="1"><span class="icon">&#128196;</span> Store
-          Info</button>
-        <button class="step-btn" id="step-system" data-step="2"><span class="icon">&#9881;</span> System</button>
-        <button class="step-btn" id="step-styles" data-step="3"><span class="icon">&#127912;</span> Styles</button>
-        <button class="step-btn" id="step-styles" data-step="4"><span class="icon">&#128295;</span> Plugin
-          Settings</button>
-        <button class="step-btn" id="step-summary" data-step="5"><span class="icon">&#128221;</span> Summary</button>
-      </nav>
-      <div class="sidebar-footer">
-        <button class="footer-btn"><span class="icon">&#128100;</span> Profile</button>
-        <button class="footer-btn"><span class="icon">&#127760;</span> My Sites</button>
-        <button class="footer-btn "style="margin-bottom:5px"><span class="icon">&#128682;</span> Logout</button>
-      </div>
-    </aside>
-    <main class="wizard-main">
-      <div id="wizard-step-content">
-        <div class="wizard-card" id="store-info-card">
-          <h2 class="wizard-title">Lets Build Your Fresh Magento Website</h2>
-          <p class="wizard-desc">Corefinity Magento Wizard is a no-code solution for building and deploying a fully
-            functional Magento story. Simply input some basic information throughout the guided steps to configure your
-            store. Including our approved third-parties ensuring your site it tailored to you and your Magento Store</p>
-          <form class="wizard-form">
-            <label for="storeName" class="wizard-label">Store Name</label>
-            <div class="wizard-input-group">
-              <input type="text" id="storeName" name="storeName" class="wizard-input" maxlength="14"
-                value="Sample Store" />
-              <span class="wizard-input-check">&#10003;</span>
-            </div>
-            <div class="wizard-input-meta">
-              <span class="wizard-char-count">12 / 14</span>
-              <span class="wizard-name-available">Store name Available</span>
-            </div>
-            <div class="wizard-info-box">
-              <span class="wizard-info-icon">&#9888;</span>
-              <div>
-                <strong>Licensing</strong><br>
-                Depending on your modules and theme, you may need to add your license keys to demo and/or download your
-                development-ready package.
-              </div>
-            </div>
-            <div class="wizard-form-actions">
-              <button type="submit" id="store-next-btn" class="wizard-next-btn">Next Step</button>
-            </div>
-          </form>
-        </div>
-        <div class="wizard-step-system hidden">
-          <div class="platform-card wizard-card" id="system-step-card">
-            <h2 class="wizard-title">Environment Setup</h2>
-            <p class="wizard-desc">Select your Platform</p>
-            <div class="platform-options">
-              <div class="platform-option">
-                <div class="platform-info-box">
-                  <img src="Screenshot 2025-07-09 221816.png" alt="Magento Logo" class="platform-logo" />
-                  <div>Magento</div>
-                </div>
-              </div>
-              <div class="platform-option">
-                <div class="platform-info-box">
-                  <img src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Laravel.svg" alt="Laravel Logo"
-                    class="platform-logo" />
-                  <div>Laravel</div>
-                </div>
-              </div>
-              <div class="platform-option">
-                <div class="platform-info-box">
-                  <img src="https://upload.wikimedia.org/wikipedia/commons/9/98/WordPress_blue_logo.svg"
-                    alt="WordPress Logo" class="platform-logo" />
-                  <div>WordPress</div>
-                </div>
-              </div>
-            </div>
-            <div id="platform-version-container" class="hidden">
-              <label for="platform-version" class="wizard-label" style="margin-top:24px;display:block;">Select
-                Version</label>
-              <div class="custom-dropdown" id="platform-version-dropdown">
-                <div class="custom-dropdown-selected" id="custom-dropdown-selected">Select a version</div>
-                <div class="custom-dropdown-options" id="custom-dropdown-options" style="display:none;"></div>
-              </div>
-            </div>
+body {
+  margin: 0;
+  font-family: 'Montserrat', Arial, sans-serif;
+  background: #ebeff1;
+  color: #222;
+}
 
-            <!-- Version Dependencies Section -->
-            <div class="version-dependencies-section hidden">
-              <h3 class="version-dependencies-title">Version Dependencies</h3>
-              <div class="version-dependencies-cards">
-                <div class="version-dependency-card">
-                  <div class="dependency-icon">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" alt="PHP" />
-                  </div>
-                  <div class="dependency-label" id="php-version-label">PHP Version 8.0</div>
-                </div>
-                <div class="version-dependency-card">
-                  <div class="dependency-icon">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg"
-                      alt="MariaDB" />
-                  </div>
-                  <div class="dependency-label" id="mariadb-version-label">MariaDB Version 10.3</div>
-                </div>
-                <div class="version-dependency-card">
-                  <div class="dependency-icon">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg"
-                      alt="Redis" />
-                  </div>
-                  <div class="dependency-label" id="redis-version-label">Redis Version 6.0</div>
-                </div>
-                <div class="version-dependency-card">
-                  <div class="dependency-icon">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/elastic/elastic-original.svg"
-                      alt="OpenSearch" />
-                  </div>
-                  <div class="dependency-label" id="opensearch-version-label">OpenSearch Version N/A</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="wizard-step hidden" id="styles-step">
+.main-header {
+  width: 100%;
+  background: transparent;
+  padding: 10px 0 0 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
 
-          <div class="wizard-card" id="styles-step-card">
-            <div class="styles-tabs">
-              <button class="styles-tab active" data-tab="theme"><span class="tab-icon">🎨</span> Theme</button>
-              <button class="styles-tab" data-tab="logo"><span class="tab-icon">🖼</span> Logo</button>
-              <button class="styles-tab" data-tab="colours"><span class="tab-icon">🖌</span> Colours</button>
-              <button class="styles-tab" data-tab="font"><span class="tab-icon">𝐀</span> Font</button>
-            </div>
-            <div class="styles-tab-content" id="styles-tab-theme">
-              <!-- <div id="theme-preview-message" class="theme-preview-message">Please Select a Theme</div> -->
-              <div class="wizard-card">
-                <h2 class="wizard-title" style="margin-top:24px; margin-bottom:20px;">Choose Your Frontend Framework
-                </h2>
-                <div class="wizard-label" style="margin-bottom:18px; margin-top:10px;">Select Your Theme</div>
-                <div class="theme-options">
-                  <div class="theme-card" data-theme="luma">
-                    <label class="theme-radio-label">
-                      <div class="theme-info">
-                        <img src="https://via.placeholder.com/60x60?text=Luma+Logo" alt="Luma Theme Logo"
-                          class="theme-logo" />
-                        <input type="radio" name="theme" value="luma" class="theme-radio" />
-                        <div class="theme-text-col">
-                          <div class="theme-title">Luma</div>
-                          <div class="theme-desc">Magento's default frontend theme, offering a traditional setup with
-                            built-in compatibility for most extensions. It's a familiar choice but can be slower and
-                            more resource-intensive.</div>
-                        </div>
-                      </div>
-                    </label>
-                  </div>
-                  <div class="theme-card" data-theme="hyva">
-                    <label class="theme-radio-label">
-                      <div class="theme-info">
-                        <img src="https://via.placeholder.com/60x60?text=Hyva+Logo" alt="Hyva Theme Logo"
-                          class="theme-logo" />
-                        <input type="radio" name="theme" value="hyva" class="theme-radio" />
-                        <div class="theme-text-col">
-                          <div class="theme-title">Hyvä Theme <span class="theme-license">Licence Key Needed</span>
-                          </div>
-                          <div class="theme-desc">A modern, lightweight alternative designed for speed and performance.
-                            Hyvä significantly improves site load times and user experience while reducing complexity.
-                          </div>
-                        </div>
-                      </div>
-                    </label>
-                  </div>
-                </div>
-                <button class="theme-preview-btn" id="theme-preview-btn-main">Preview Theme</button>
-                <div class="theme-image-preview" id="theme-preview-image">
-                </div>
-              </div>
-            </div>
-            <div class="styles-tab-content hidden" id="styles-tab-logo">
-              <div class="wizard-card">
-                <h2 class="wizard-title" style="margin-top:20px;">Logos</h2>
-                <div class="wizard-label" style="margin-bottom:18px;">Upload both formats of your companies logo</div>
-                <form class="logo-upload-form">
-                  <label class="wizard-label" for="desktop-logo">Desktop Logo</label>
-                  <div class="custom-file-input">
-                    <label for="desktop-logo" class="file-btn">Choose file</label>
-                    <span class="file-label" id="desktop-filename">No file chosen</span>
-                    <input type="file" id="desktop-logo" name="desktop-logo" class="custom-file-input"
-                      accept="image/png, image/jpeg, image/jpg, image/svg+xml" />
-                  </div>
-                  <div class="logo-info-text">Minimum size: 600x300px. Allowed formats: jpg, jpeg, png, svg.</div>
-                  <img id="desktop-logo-preview" src="" alt="Desktop logo preview"
-                    style="width:220px; margin:12px 0 24px 0; border-radius:8px; display:none;" />
-                  <label class="wizard-label" for="mobile-logo">Mobile Logo</label>
-                  <div class="custom-file-input">
-                    <label for="mobile-logo" class="file-btn">Choose file</label>
-                    <span class="file-label" id="mobile-filename">No file chosen</span>
-                    <input type="file" id="mobile-logo" name="mobile-logo" class="custom-file-input"
-                      accept="image/png, image/jpeg, image/jpg, image/svg+xml" />
-                  </div>
-                  <div class="logo-info-text">Minimum size: 100x50px. Allowed formats: jpg, jpeg, png, svg.</div>
-                  <img id="mobile-logo-preview" src="" alt="Mobile logo preview"
-                    style="width:120px; margin:12px 0 24px 0; border-radius:8px; display:none;" />
-                  <button class="theme-preview-btn" id="logo-preview-btn" style="width:100%; margin-top:18px;">Preview
-                    Theme</button>
-                </form>
-              </div>
-            </div>
-            <div class="styles-tab-content hidden" id="styles-tab-colours">
-              <div class="wizard-card">
-                <h2 class="wizard-title" style="margin-top:20px;">Logos</h2>
-                <div class="wizard-label" style="margin-bottom:18px;">Upload both formats of your companies logo</div>
-                <div class="colours-row">
-                  <div class="colour-col">
-                    <div class="colour-label">PRIMARY COLOUR</div>
-                    <div class="colour-circle colour-primary" id="primary-colour-picker"></div>
-                    <div class="colour-desc">Used for main actions and highlights</div>
-                  </div>
-                  <div class="colour-col">
-                    <div class="colour-label">SECONDARY COLOUR</div>
-                    <div class="colour-circle colour-secondary" id="secondary-colour-picker"></div>
-                    <div class="colour-desc">Used for secondary buttons and accents</div>
-                  </div>
-                  <div class="colour-col">
-                    <div class="colour-label">TERTIARY COLOUR</div>
-                    <div class="colour-circle colour-tertiary" id="tertiary-colour-picker"></div>
-                    <div class="colour-desc">Used for alerts and informational messages</div>
-                  </div>
-                </div>
-                <!-- Inline small circles row, add IDs for JS -->
-                <div class="colours-row colours-row-small">
-                  <div class="colour-circle colour-primary colour-small colour-picker" id="primary-inline-circle"
-                    data-type="primary"></div>
-                  <div class="colour-popup" id="primary-colour-popup">
-                    <div class="colour-palette">
-                      <div class="colour-swatch" data-color="#6c5ce7"></div>
-                      <div class="colour-swatch" data-color="#a29bfe"></div>
-                      <div class="colour-swatch" data-color="#0984e3"></div>
-                      <div class="colour-swatch" data-color="#74b9ff"></div>
-                      <div class="colour-swatch" data-color="#00b894"></div>
-                      <div class="colour-swatch" data-color="#55efc4"></div>
-                      <div class="colour-swatch" data-color="#fdcb6e"></div>
-                      <div class="colour-swatch" data-color="#ffeaa7"></div>
-                      <div class="colour-swatch" data-color="#e17055"></div>
-                      <div class="colour-swatch" data-color="#fab1a0"></div>
-                      <div class="colour-swatch" data-color="#d63031"></div>
-                      <div class="colour-swatch" data-color="#ff7675"></div>
-                      <div class="colour-swatch" data-color="#636e72"></div>
-                      <div class="colour-swatch" data-color="#b2bec3"></div>
-                      <div class="colour-swatch" data-color="#2d3436"></div>
-                      <div class="colour-swatch" data-color="#fff"></div>
-                      <div class="colour-swatch" data-color="#000"></div>
-                      <div class="colour-swatch" data-color="#f5f6fa"></div>
-                      <div class="colour-swatch" data-color="#fbc531"></div>
-                      <div class="colour-swatch" data-color="#4cd137"></div>
-                      <div class="colour-swatch" data-color="#487eb0"></div>
-                      <div class="colour-swatch" data-color="#8c7ae6"></div>
-                      <div class="colour-swatch" data-color="#e84118"></div>
-                      <div class="colour-swatch" data-color="#c23616"></div>
-                    </div>
-                  </div>
-                  <div class="colour-circle colour-secondary colour-small colour-picker" id="secondary-inline-circle"
-                    data-type="secondary"></div>
-                  <div class="colour-popup" id="secondary-colour-popup">
-                    <div class="colour-palette">
-                      <div class="colour-swatch" data-color="#6c5ce7"></div>
-                      <div class="colour-swatch" data-color="#a29bfe"></div>
-                      <div class="colour-swatch" data-color="#0984e3"></div>
-                      <div class="colour-swatch" data-color="#74b9ff"></div>
-                      <div class="colour-swatch" data-color="#00b894"></div>
-                      <div class="colour-swatch" data-color="#55efc4"></div>
-                      <div class="colour-swatch" data-color="#fdcb6e"></div>
-                      <div class="colour-swatch" data-color="#ffeaa7"></div>
-                      <div class="colour-swatch" data-color="#e17055"></div>
-                      <div class="colour-swatch" data-color="#fab1a0"></div>
-                      <div class="colour-swatch" data-color="#d63031"></div>
-                      <div class="colour-swatch" data-color="#ff7675"></div>
-                      <div class="colour-swatch" data-color="#636e72"></div>
-                      <div class="colour-swatch" data-color="#b2bec3"></div>
-                      <div class="colour-swatch" data-color="#2d3436"></div>
-                      <div class="colour-swatch" data-color="#fff"></div>
-                      <div class="colour-swatch" data-color="#000"></div>
-                      <div class="colour-swatch" data-color="#f5f6fa"></div>
-                      <div class="colour-swatch" data-color="#fbc531"></div>
-                      <div class="colour-swatch" data-color="#4cd137"></div>
-                      <div class="colour-swatch" data-color="#487eb0"></div>
-                      <div class="colour-swatch" data-color="#8c7ae6"></div>
-                      <div class="colour-swatch" data-color="#e84118"></div>
-                      <div class="colour-swatch" data-color="#c23616"></div>
-                    </div>
-                  </div>
-                  <div class="colour-circle colour-tertiary colour-small colour-picker" id="tertiary-inline-circle"
-                    data-type="tertiary"></div>
-                  <div class="colour-popup" id="tertiary-colour-popup">
-                    <div class="colour-palette">
-                      <div class="colour-swatch" data-color="#6c5ce7"></div>
-                      <div class="colour-swatch" data-color="#a29bfe"></div>
-                      <div class="colour-swatch" data-color="#0984e3"></div>
-                      <div class="colour-swatch" data-color="#74b9ff"></div>
-                      <div class="colour-swatch" data-color="#00b894"></div>
-                      <div class="colour-swatch" data-color="#55efc4"></div>
-                      <div class="colour-swatch" data-color="#fdcb6e"></div>
-                      <div class="colour-swatch" data-color="#ffeaa7"></div>
-                      <div class="colour-swatch" data-color="#e17055"></div>
-                      <div class="colour-swatch" data-color="#fab1a0"></div>
-                      <div class="colour-swatch" data-color="#d63031"></div>
-                      <div class="colour-swatch" data-color="#ff7675"></div>
-                      <div class="colour-swatch" data-color="#636e72"></div>
-                      <div class="colour-swatch" data-color="#b2bec3"></div>
-                      <div class="colour-swatch" data-color="#2d3436"></div>
-                      <div class="colour-swatch" data-color="#fff"></div>
-                      <div class="colour-swatch" data-color="#000"></div>
-                      <div class="colour-swatch" data-color="#f5f6fa"></div>
-                      <div class="colour-swatch" data-color="#fbc531"></div>
-                      <div class="colour-swatch" data-color="#4cd137"></div>
-                      <div class="colour-swatch" data-color="#487eb0"></div>
-                      <div class="colour-swatch" data-color="#8c7ae6"></div>
-                      <div class="colour-swatch" data-color="#e84118"></div>
-                      <div class="colour-swatch" data-color="#c23616"></div>
-                    </div>
-                  </div>
-                </div>
-                <button class="theme-preview-btn" id="colours-preview-btn" style="width:100%; margin-top:32px;">Preview
-                  Theme</button>
-              </div>
-            </div>
-            <div class="styles-tab-content hidden" id="styles-tab-font">
-              <div class="wizard-card">
-                <h2 class="wizard-title" style="margin-top:20px;">Fonts</h2>
-                <div style="margin-bottom:18px; margin-top:18px;">
-                  <label style="font-size:1.08rem; font-weight:500; display:flex; align-items:center; gap:8px;">
-                    <input type="checkbox" id="default-font-checkbox" checked
-                      style="accent-color:#2563eb; width:18px; height:18px; margin-right:6px;" />
-                    Use Default Theme Font
-                  </label>
-                </div>
-                <div style="position:relative;">
-                  <input type="text" class="font-dropdown-trigger" id="font-dropdown-trigger" placeholder="search font" autocomplete="off" tabindex="0" />
-                  <span class="font-search-arrow" id="font-search-arrow">&#9662;</span>
-                  <div class="font-dropdown hidden" id="font-dropdown">
-                    <div class="font-option" data-font="Montserrat" style="font-family: 'Montserrat', sans-serif;">
-                      Montserrat</div>
-                    <div class="font-option" data-font="Roboto" style="font-family: 'Roboto', sans-serif;">Roboto</div>
-                    <div class="font-option" data-font="Lato" style="font-family: 'Lato', sans-serif;">Lato</div>
-                    <div class="font-option" data-font="Open Sans" style="font-family: 'Open Sans', sans-serif;">Open
-                      Sans</div>
-                    <div class="font-option" data-font="Poppins" style="font-family: 'Poppins', sans-serif;">Poppins
-                    </div>
-                  </div>
-                </div>
-                <!-- Font preview box -->
-                <div id="font-preview-box"
-                  style="background: #f7f8fa; border-radius: 8px; border: 1.5px solid #ececec; padding: 13px 16px; font-size: 1.08rem; color: #222; margin-top: 12px; min-height: 32px;">
-                </div>
-              </div>
-            </div>
-            <!-- Modal for theme preview -->
-            <div class="modal-overlay" id="theme-preview-modal" style="display:none;">
-              <div class="modal-content">
-                <div class="modal-tabs">
-                  <button class="modal-tab active" data-modal-tab="desktop">Desktop</button>
-                  <button class="modal-tab" data-modal-tab="mobile">Mobile</button>
-                  <button class="modal-close-btn" id="modal-close-btn">Close</button>
-                </div>
-                <div class="modal-preview-content" id="modal-preview-desktop">
-                  <div class="magento-product-preview-real">
-                    <div class="magento-header-real">
-                      <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Magento_Logo.svg" alt="Magento Logo"
-                        class="magento-logo-real" />
-                      <nav class="magento-nav-real">
-                        <a href="#">What's New</a>
-                        <div class="magento-nav-dropdown">Women <span class="magento-nav-arrow">&#9660;</span></div>
-                        <div class="magento-nav-dropdown">Men <span class="magento-nav-arrow">&#9660;</span></div>
-                        <div class="magento-nav-dropdown">Gear <span class="magento-nav-arrow">&#9660;</span></div>
-                        <div class="magento-nav-dropdown">Training <span class="magento-nav-arrow">&#9660;</span></div>
-                        <a href="#">Sale</a>
-                      </nav>
-                      <div class="magento-header-icons-real">
-                        <svg class="magento-icon-real" width="22" height="22" fill="none" stroke="#7d7d7d"
-                          stroke-width="2" viewBox="0 0 24 24">
-                          <circle cx="11" cy="11" r="8" />
-                          <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                        </svg>
-                        <svg class="magento-icon-real" width="22" height="22" fill="#7d7d7d" viewBox="0 0 24 24">
-                          <circle cx="12" cy="8" r="4" />
-                          <path d="M4 20c0-4 8-4 8-4s8 0 8 4" />
-                        </svg>
-                        <svg class="magento-icon-real" width="22" height="22" fill="#7d7d7d" viewBox="0 0 24 24">
-                          <path d="M6 6h15l-1.5 9h-13z" />
-                          <circle cx="9" cy="21" r="1" />
-                          <circle cx="19" cy="21" r="1" />
-                        </svg>
-                      </div>
-                    </div>
-                    <div class="magento-breadcrumbs-real">Home / Aim Analog Watch</div>
-                    <div class="magento-product-main-real">
-                      <div class="magento-product-image-real">
-                        <img src="https://cdn.pixabay.com/photo/2012/04/13/00/22/watch-31201_1280.png"
-                          alt="Aim Analog Watch" />
-                      </div>
-                      <div class="magento-product-info-real">
-                        <h1 class="magento-product-title-real">Aim Analog Watch</h1>
-                        <div class="magento-rating-real">
-                          <svg width="22" height="22" viewBox="0 0 24 24" fill="#FFD600">
-                            <polygon points="12,2 15,9 22,9.3 17,14.1 18.5,21 12,17.5 5.5,21 7,14.1 2,9.3 9,9" />
-                          </svg>
-                          <svg width="22" height="22" viewBox="0 0 24 24" fill="#FFD600">
-                            <polygon points="12,2 15,9 22,9.3 17,14.1 18.5,21 12,17.5 5.5,21 7,14.1 2,9.3 9,9" />
-                          </svg>
-                          <svg width="22" height="22" viewBox="0 0 24 24" fill="#FFD600">
-                            <polygon points="12,2 15,9 22,9.3 17,14.1 18.5,21 12,17.5 5.5,21 7,14.1 2,9.3 9,9" />
-                          </svg>
-                          <svg width="22" height="22" viewBox="0 0 24 24" fill="#FFD600">
-                            <polygon points="12,2 15,9 22,9.3 17,14.1 18.5,21 12,17.5 5.5,21 7,14.1 2,9.3 9,9" />
-                          </svg>
-                          <svg width="22" height="22" viewBox="0 0 24 24" fill="#E0E0E0">
-                            <polygon points="12,2 15,9 22,9.3 17,14.1 18.5,21 12,17.5 5.5,21 7,14.1 2,9.3 9,9" />
-                          </svg>
-                        </div>
-                        <div class="magento-product-desc-real">
-                          Stay light-years ahead of the competition with our Aim Analog Watch. The flexible, rubberized
-                          strap is contoured to conform to the shape of your wrist for a comfortable all-day fit. The
-                          face features three illuminated hands, a digital read-out of the current time, and stopwatch
-                          functions.
-                        </div>
-                        <div class="magento-stock-real"><span class="magento-stock-dot-real"></span> In stock</div>
-                        <table class="magento-product-attrs-real">
-                          <tr>
-                            <td>SKU</td>
-                            <td>24-MG04</td>
-                          </tr>
-                          <tr>
-                            <td>Gender</td>
-                            <td>Men</td>
-                          </tr>
-                          <tr>
-                            <td>Material</td>
-                            <td>Plastic, Rubber</td>
-                          </tr>
-                        </table>
-                        <div class="magento-product-price-real">€45.00</div>
-                        <div class="magento-product-actions-real">
-                          <input type="number" value="1" min="1" class="magento-qty-input-real" disabled />
-                          <button class="magento-add-to-cart-real" disabled><svg width="20" height="20" fill="#fff"
-                              viewBox="0 0 24 24">
-                              <path d="M6 6h15l-1.5 9h-13z" />
-                              <circle cx="9" cy="21" r="1" />
-                              <circle cx="19" cy="21" r="1" />
-                            </svg> Add to Cart</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="modal-preview-content hidden" id="modal-preview-mobile">
-                  <div class="magento-mobile-preview-real">
-                    <div class="magento-mobile-header-real">
-                      <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Magento_Logo.svg" alt="Magento Logo"
-                        class="magento-mobile-logo-real" />
-                      <div class="magento-mobile-header-icons-real">
-                        <svg class="magento-mobile-hamburger" width="28" height="28" viewBox="0 0 24 24" fill="none"
-                          stroke="#e53935" stroke-width="2">
-                          <line x1="3" y1="6" x2="21" y2="6" />
-                          <line x1="3" y1="12" x2="21" y2="12" />
-                          <line x1="3" y1="18" x2="21" y2="18" />
-                        </svg>
-                        <svg class="magento-mobile-icon-real" width="22" height="22" fill="none" stroke="#e53935"
-                          stroke-width="2" viewBox="0 0 24 24">
-                          <circle cx="11" cy="11" r="8" />
-                          <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                        </svg>
-                        <svg class="magento-mobile-icon-real" width="22" height="22" fill="#e53935" viewBox="0 0 24 24">
-                          <circle cx="12" cy="8" r="4" />
-                          <path d="M4 20c0-4 8-4 8-4s8 0 8 4" />
-                        </svg>
-                        <svg class="magento-mobile-icon-real" width="22" height="22" fill="#e53935" viewBox="0 0 24 24">
-                          <path d="M6 6h15l-1.5 9h-13z" />
-                          <circle cx="9" cy="21" r="1" />
-                          <circle cx="19" cy="21" r="1" />
-                        </svg>
-                      </div>
-                    </div>
-                    <div class="magento-mobile-breadcrumbs-real">Home / Aim Analog Watch</div>
-                    <div class="magento-mobile-product-title-real">Aim Analog Watch</div>
-                    <div class="magento-mobile-product-image-real">
-                      <img src="https://cdn.pixabay.com/photo/2012/04/13/00/22/watch-31201_1280.png"
-                        alt="Aim Analog Watch" />
-                    </div>
-                    <div class="magento-mobile-rating-desc-row">
-                      <span class="magento-mobile-rating-real">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="#FFD600">
-                          <polygon points="12,2 15,9 22,9.3 17,14.1 18.5,21 12,17.5 5.5,21 7,14.1 2,9.3 9,9" />
-                        </svg>
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="#FFD600">
-                          <polygon points="12,2 15,9 22,9.3 17,14.1 18.5,21 12,17.5 5.5,21 7,14.1 2,9.3 9,9" />
-                        </svg>
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="#FFD600">
-                          <polygon points="12,2 15,9 22,9.3 17,14.1 18.5,21 12,17.5 5.5,21 7,14.1 2,9.3 9,9" />
-                        </svg>
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="#FFD600">
-                          <polygon points="12,2 15,9 22,9.3 17,14.1 18.5,21 12,17.5 5.5,21 7,14.1 2,9.3 9,9" />
-                        </svg>
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="#E0E0E0">
-                          <polygon points="12,2 15,9 22,9.3 17,14.1 18.5,21 12,17.5 5.5,21 7,14.1 2,9.3 9,9" />
-                        </svg>
-                      </span>
-                    </div>
-                    <div class="magento-mobile-desc-firstline">Stay light-years ahead of the competition with our</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="wizard-step hidden" id="plugin-step">
-          <div class="wizard-card">
-            <div class="plugin-settings-main">
-              <h2 class="wizard-title" style="margin-top:0;">Plugins</h2>
-              <div class="wizard-label" style="margin-bottom:24px;">Select the plugins you want to enable</div>
-              <div class="plugin-section">
-                <h3 class="plugin-section-title">Payments</h3>
-                <div class="plugin-section-desc">Magento payment service provider extensions enable secure payment
-                  processing, offering multiple payment methods, fraud prevention, and integration with various payment
-                  gateways.</div>
-                <div class="payment-cards-group">
-                  <div class="plugin-card payment-card" data-payment="ppcp">
-                    <div class="plugin-card-icon"><img
-                        src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal"
-                        style="height:22px;" /></div>
-                    <div class="plugin-card-info">
-                      <div class="plugin-card-title">PPCP</div>
-                      <div class="plugin-card-desc">PayPal Complete Payments (PPCP) - A full-stack payment solution
-                        offering seamless checkout, fraud protection, and global payment method support.</div>
-                    </div>
-                    <button class="plugin-card-btn payment-add-btn">Add</button>
-                  </div>
-                  <div class="plugin-card payment-card" data-payment="fastlane">
-                    <div class="plugin-card-icon plugin-card-icon-m">F</div>
-                    <div class="plugin-card-info">
-                      <div class="plugin-card-title">Fastlane</div>
-                      <div class="plugin-card-desc">PayPal Fastlane - A one-click checkout solution that streamlines
-                        transactions and improves conversion rates for merchants.</div>
-                    </div>
-                    <button class="plugin-card-btn payment-add-btn">Add</button>
-                  </div>
-                  <div class="plugin-card payment-card" data-payment="mollie">
-                    <div class="plugin-card-icon plugin-card-icon-m">M</div>
-                    <div class="plugin-card-info">
-                      <div class="plugin-card-title">Mollie</div>
-                      <div class="plugin-card-desc">Mollie enables businesses to accept multiple payment options with
-                        transparent pricing and a user-friendly API.</div>
-                    </div>
-                    <button class="plugin-card-btn payment-add-btn">Add</button>
-                  </div>
-                </div>
-              </div>
-              <div class="plugin-section">
-                <h3 class="plugin-section-title">Address Finder</h3>
-                <div class="plugin-section-desc">An address finder helps users quickly auto-complete their address
-                  during checkout, reducing errors and speeding up the process with suggested address options.</div>
-                <div class="address-cards-group">
-                  <div class="plugin-card address-card" data-address="loqate">
-                    <div class="plugin-card-icon plugin-card-icon-m">M</div>
-                    <div class="plugin-card-info">
-                      <div class="plugin-card-title">Loqate</div>
-                      <div class="plugin-card-desc">Loqate – A global address verification and geolocation service that
-                        ensures accurate customer data for smooth checkouts and deliveries.</div>
-                    </div>
-                    <button class="plugin-card-btn address-add-btn">Add</button>
-                  </div>
-                </div>
-              </div>
-              <div class="plugin-section">
-                <h3 class="plugin-section-title">Email & SMS</h3>
-                <div class="plugin-section-desc">SMS and email Magento extensions offer automated notifications, order
-                  updates, and marketing campaigns to engage customers and improve communication.</div>
-                <div class="email-cards-group">
-                  <div class="plugin-card email-card" data-email="klaviyo">
-                    <div class="plugin-card-icon plugin-card-icon-m">M</div>
-                    <div class="plugin-card-info">
-                      <div class="plugin-card-title">Klaviyo</div>
-                      <div class="plugin-card-desc">Klaviyo Email – A data-driven email marketing platform that enables
-                        ecommerce brands to create personalised, automated customer engagement campaigns.</div>
-                    </div>
-                    <button class="plugin-card-btn email-add-btn">Add</button>
-                  </div>
-                  <div class="plugin-card email-card" data-email="dotdigital">
-                    <div class="plugin-card-icon plugin-card-icon-m">M</div>
-                    <div class="plugin-card-info">
-                      <div class="plugin-card-title">DotDigital</div>
-                      <div class="plugin-card-desc">DotDigital Email – A marketing automation platform specialising in
-                        personalised email campaigns, customer segmentation, and omnichannel engagement.</div>
-                    </div>
-                    <button class="plugin-card-btn email-add-btn">Add</button>
-                  </div>
-                </div>
-              </div>
-              <div class="plugin-section">
-                <h3 class="plugin-section-title">Tax & Shipping</h3>
-                <div class="plugin-section-desc">Magento Tax & Shipping extensions automate tax calculations, manage
-                  shipping rates, offer real-time shipping options, and ensure accurate pricing for a seamless checkout
-                  experience.</div>
-                <div class="tax-cards-group">
-                  <div class="plugin-card tax-card" data-tax="shipperhq">
-                    <div class="plugin-card-icon plugin-card-icon-m">M</div>
-                    <div class="plugin-card-info">
-                      <div class="plugin-card-title">ShipperHQ</div>
-                      <div class="plugin-card-desc">ShipperHQ – A shipping rate management platform that optimises
-                        checkout with real-time shipping rates, delivery options, and custom shipping rules.</div>
-                    </div>
-                    <button class="plugin-card-btn tax-add-btn">Add</button>
-                  </div>
-                </div>
-              </div>
-              <div class="plugin-section">
-                <h3 class="plugin-section-title">Reviews & UGC</h3>
-                <div class="plugin-section-desc">Magento Reviews & UGC extensions enable customers to leave product
-                  reviews, ratings, and user-generated content, boosting trust, engagement, and conversion rates.</div>
-                <div class="reviews-cards-group">
-                  <div class="plugin-card reviews-card" data-reviews="yotpo">
-                    <div class="plugin-card-icon plugin-card-icon-m">M</div>
-                    <div class="plugin-card-info">
-                      <div class="plugin-card-title">Yotpo Reviews</div>
-                      <div class="plugin-card-desc">Yotpo Reviews – A customer review platform that helps brands
-                        collect, display, and leverage authentic reviews to build trust and drive conversions.</div>
-                    </div>
-                    <button class="plugin-card-btn reviews-add-btn">Add</button>
-                  </div>
-                  <div class="plugin-card reviews-card" data-reviews="reviewsio">
-                    <div class="plugin-card-icon plugin-card-icon-m">M</div>
-                    <div class="plugin-card-info">
-                      <div class="plugin-card-title">Reviews.io</div>
-                      <div class="plugin-card-desc">Reviews.io – A review collection and management platform that
-                        enables businesses to gather customer feedback and showcase authentic ratings.</div>
-                    </div>
-                    <button class="plugin-card-btn reviews-add-btn">Add</button>
-                  </div>
-                </div>
-              </div>
-              <div class="plugin-section">
-                <h3 class="plugin-section-title">Search, Merchandising & Recommendations</h3>
-                <div class="plugin-section-desc">Magento search, merchandising & recommendations extensions improve
-                  product discovery with advanced search, personalised recommendations, and targeted product displays
-                  for a better user experience.</div>
-                <div class="search-cards-group">
-                  <div class="plugin-card search-card" data-search="klevu">
-                    <div class="plugin-card-icon plugin-card-icon-m">M</div>
-                    <div class="plugin-card-info">
-                      <div class="plugin-card-title">Klevu</div>
-                      <div class="plugin-card-desc">Klevu - An AI-powered site search and product discovery solution
-                        that enhances ecommerce experiences with smart search, merchandising, and recommendations.</div>
-                    </div>
-                    <button class="plugin-card-btn search-add-btn">Add</button>
-                  </div>
-                  <div class="plugin-card search-card" data-search="nosto">
-                    <div class="plugin-card-icon plugin-card-icon-m">M</div>
-                    <div class="plugin-card-info">
-                      <div class="plugin-card-title">Nosto</div>
-                      <div class="plugin-card-desc">Nosto - A personalisation platform that delivers AI-driven product
-                        recommendations, dynamic content, and tailored shopping experiences to boost conversions.</div>
-                    </div>
-                    <button class="plugin-card-btn search-add-btn">Add</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </main>
-  </div>
-  <script src="script.js"></script>
-</body>
+.main-header .brand-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #4a7aff;
+  line-height: 1.1;
+  letter-spacing: -1px;
+  padding: 0;
+}
 
-</html>
+.wizard-body-row {
+  display: flex;
+  align-items: flex-start;
+  margin-top: 20px;
+  /* adjust for header height */
+  width: 100%;
+}
+
+.sidebar {
+  position: static;
+  top: unset;
+  left: unset;
+  height: auto;
+  min-height: 85vh;
+  box-shadow: 0 4px 24px rgba(41, 79, 218, 0.08);
+  border-radius: 0 8px 8px 0;
+  height: auto;
+  min-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 10px 2px 20px;
+  width: 190px;
+  background: linear-gradient(180deg, #e3eefd 0%, #d5e7fd 100%);
+  z-index: 10;
+  padding-top: 0;
+  margin-right: 24px;
+  margin-bottom:0px;
+}
+
+.sidebar-header {
+  margin-bottom: 24px;
+}
+
+.brand-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #4a7aff;
+  line-height: 1.2;
+}
+
+.wizard-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 20px;
+}
+
+.step-btn {
+  background: #fff;
+  color: #4a7aff;
+  border: 1px solid #e0e7ef;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  box-shadow: 0 2px 8px rgba(41, 79, 218, 0.04);
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 4px;
+  text-align: left;
+}
+
+.step-btn.active {
+  background: #4a7aff;
+  color: #fff;
+}
+
+.step-btn.completed {
+  background: #22c55e;
+  color: #fff;
+}
+
+.step-btn.plugin {
+  background: #4a7aff;
+}
+
+.step-btn.summary {
+  background: #fff;
+  color: #4a7aff;
+  border: 1px solid #4a7aff;
+}
+
+.step-btn.active {
+  box-shadow: 0 4px 16px rgba(41, 79, 218, 0.10);
+
+}
+
+.icon {
+  font-size: 1.2em;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.footer-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #fff;
+  color: #4a7aff;
+  border: 1px solid #e0e7ef;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.footer-btn:hover {
+  background: #4a7aff;
+  color: #fff;
+}
+
+.wizard-main {
+  padding: 20px 32px 32px 0 !important;
+  padding-top: 0 !important;
+}
+
+.wizard-main #styles-step {
+  padding: 0 !important;
+}
+
+.wizard-card {
+  margin-top: 0 !important;
+}
+
+.progress-bar-container {
+  max-width: 100% !important;
+  width: 100% !important;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 auto 24px auto;
+  padding-top: 8px;
+}
+
+
+.progress-bar-label {
+  flex: 0 0 auto;
+  min-width: 90px;
+  text-align: left;
+  font-size: 0.85rem !important;
+  color: #444;
+  margin-bottom: 0;
+  font-weight: 500;
+}
+
+.progress-bar-bg {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  height: 7px;
+  background: #e5eaf2;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: #4a7aff;
+  border-radius: 4px;
+  transition: width 0.3s;
+}
+
+.wizard-step-system {
+  position: relative;
+  padding: 0 0 0 0 !important;
+  margin: 0 !important;
+}
+
+.wizard-nav-btns {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 12px 0;
+  width: 100%;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 4px !important;
+  padding: 0 !important;
+}
+
+.platform-card {
+  background: #f8fafc;
+}
+
+.platform-options {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10px;
+  /* slightly reduced for better balance */
+  margin-top: 32px;
+}
+
+.platform-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #f7f9fd;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(41, 79, 218, 0.06);
+  padding: 24px 32px 16px 32px;
+  font-size: 1rem;
+  color: #222;
+  cursor: pointer;
+  border: none;
+  transition: border 0.2s, box-shadow 0.2s;
+  width: 250px;
+  min-height: 120px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.platform-info-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #f7f9fd;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 16px 8px 16px;
+  min-width: 80px;
+  min-height: 50px;
+  box-sizing: border-box;
+  box-shadow: 0 1px 4px rgba(41, 79, 218, 0.04);
+}
+
+.platform-info-box .platform-logo {
+  width: 25px;
+  height: 25px;
+  margin-bottom: 6px;
+}
+
+.platform-info-box div {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #222;
+  text-align: center;
+}
+
+.platform-option.selected,
+.platform-option:hover {
+  border: 1.5px solid #2993da;
+  box-shadow: 0 0 0 4px rgba(41, 79, 218, 0.08), 0 3px 10px rgba(41, 79, 218, 0.10);
+}
+
+.platform-logo {
+  width: 25px;
+  height: 25px;
+  margin-bottom: 10px;
+}
+
+
+/*Step Styles */
+.wizard-card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 24px rgba(41, 79, 218, 0.08);
+  padding: 18px 22px 16px 22px;
+  max-width: 900px;
+  margin: 0 auto;
+  margin-top: 12px;
+  margin-left: 0 !important;
+}
+
+#styles-step {
+  padding: 0 !important;
+}
+
+.wizard-title {
+  font-size: 1.4rem;
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: #222;
+}
+
+.wizard-desc {
+  font-size: 0.7rem;
+  color: #444;
+  margin-bottom: 6px;
+}
+
+.wizard-form {
+  margin-top: 8px;
+}
+
+.wizard-label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #222;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.wizard-input-group {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-bottom: 2px;
+}
+
+.wizard-input {
+  width: 100%;
+  font-size: 0.8rem;
+  padding: 6px 32px 6px 8px;
+  border: 2px solid #3ac9b0;
+  border-radius: 8px;
+  outline: none;
+  transition: border 0.2s;
+}
+
+.wizard-input:focus {
+  border-color: #4a7aff;
+}
+
+.wizard-input-check {
+  position: absolute;
+  right: 12px;
+  color: #3ac9b0;
+  font-size: 1.4em;
+  pointer-events: none;
+}
+
+.wizard-input-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  margin-bottom: 8px;
+  margin-top: 2px;
+  min-height: 22px;
+}
+
+.wizard-char-count {
+  font-size: 0.7rem !important;
+  color: #888;
+  margin-bottom: 6px;
+}
+
+.wizard-name-available {
+  font-size: 0.8rem !important;
+  color: #3ac9b0;
+  text-decoration: none;
+  cursor: pointer;
+  margin-left: 0;
+  margin-top: 4px;
+  transition: opacity 0.2s;
+}
+
+.wizard-name-available.hidden {
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.wizard-info-box {
+  display: flex;
+  align-items: flex-start;
+  background: #fff7e0;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  margin-top: 16px;
+  font-size: 0.72rem;
+  color: #7a5a00;
+  border-left: 5px solid #ffd36a;
+  gap: 8px;
+}
+
+.wizard-info-icon {
+  color: #ffd36a;
+  font-size: 1.5em;
+  margin-top: 2px;
+}
+
+.wizard-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+
+
+
+
+.hidden {
+  display: none !important;
+}
+
+.custom-dropdown {
+  position: relative;
+  width: 100%;
+  margin-bottom: 16px;
+  font-family: inherit;
+  overflow: visible !important;
+}
+
+.custom-dropdown-selected {
+  background: #fff;
+  color: #222;
+  border-radius: 8px;
+  padding: 12px 16px;
+  border: 1px solid #e0e7ef;
+  cursor: pointer;
+  font-size: 0.8rem;
+  min-height: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.custom-dropdown-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: #6d7270;
+  color: #fff;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  z-index: 100;
+  max-height: 220px;
+  overflow-y: auto;
+  margin-top: 2px;
+  scrollbar-width: thin;
+  scrollbar-color: #b0b3b8 #6d7270;
+}
+
+.custom-dropdown-options::-webkit-scrollbar {
+  width: 8px;
+  background: #6d7270;
+}
+
+.custom-dropdown-options::-webkit-scrollbar-thumb {
+  background: #b0b3b8;
+  border-radius: 4px;
+}
+
+.custom-dropdown-option {
+  padding: 12px 16px;
+  cursor: pointer;
+  font-size: 0.7rem;
+  transition: background 0.15s;
+}
+
+.custom-dropdown-option:hover,
+.custom-dropdown-option.selected {
+  background: #505453;
+  color: #fff;
+}
+
+.styles-tabs {
+  display: flex;
+  gap: 18px;
+  margin-bottom: 32px;
+  background: none;
+  border-radius: 7px;
+  padding: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.styles-tab {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: #f3f3f3;
+  border: 1.5px solid #f3f3f3;
+  color: #222;
+  font-size: 1.04rem;
+  font-weight: 500;
+  padding: 8px 20px 8px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: 0 2px 12px rgba(41, 79, 218, 0.07);
+  margin-right: 0;
+  margin-left: 0;
+  outline: none;
+  position: relative;
+  top: 0;
+}
+
+.styles-tab .tab-icon {
+  font-size: 0.9em;
+  margin-right: 3px;
+  display: inline-block;
+}
+
+.styles-tab.active {
+  background: #f26522;
+  color: #fff;
+  border: none;
+  z-index: 3;
+}
+
+.styles-tab.active .tab-icon {
+  color: #fff;
+}
+
+.styles-tab:not(.active):hover {
+  color: #f26522;
+  border: none;
+}
+
+.styles-tab:not(.active) .tab-icon {
+  color: #242120;
+}
+
+.theme-options {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.theme-card {
+  background: #fff;
+  border: 1.5px solid #e0e7ef;
+  border-radius: 10px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  transition: border 0.2s, background 0.2s;
+}
+
+.theme-card[data-theme="hyva"] {
+  background: #f8f9fa;
+}
+
+.theme-radio-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  flex: 1;
+  cursor: pointer;
+  flex-direction: row-reverse;
+}
+
+.theme-radio {
+  margin-top: 8px;
+  accent-color: #ff6a1a;
+  width: 16px;
+  height: 16px;
+}
+
+.theme-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  font-size:9px;
+}
+
+.theme-logo {
+  width: 6px;
+  height: 6px;
+  object-fit: contain;
+  flex-shrink: 0;
+  margin-top: 2px;
+  border-radius: 6px;
+  background: #fff;
+}
+
+.theme-info>div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.theme-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 2px;
+}
+
+.theme-desc {
+  font-size: 0.7rem;
+  color: #444;
+  margin: 0;
+  padding: 0;
+  line-height: 1.4;
+}
+
+.theme-license {
+  color: #e74c3c;
+  font-size: 0.7rem;
+  font-weight: 500;
+  margin-left: 8px;
+}
+
+.theme-preview-btn {
+  background: #fff;
+  color: #4a7aff;
+  border: 1.5px solid #4a7aff;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s, border 0.18s;
+}
+
+.theme-preview-btn:hover {
+  background: #f5f8fa;
+  color: #4a7aff;
+  border-color: #4a7aff;
+}
+
+.theme-image-preview {
+  margin: 32px auto 0 auto;
+  text-align: center;
+}
+
+.theme-image-preview img {
+  width: 400px;
+  max-width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(41, 79, 218, 0.08);
+}
+
+.theme-preview-message {
+  color: #e74c3c;
+  font-size: 1.08rem;
+  margin-bottom: 18px;
+  margin-top: 0;
+  border-left: none;
+  padding: 12px 18px;
+  border-radius: 8px;
+  display: block;
+  z-index: 10;
+  position: relative;
+}
+
+.theme-preview-message.hidden {
+  display: none;
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.32);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  max-width: 800px !important;
+  width: 95vw !important;
+  min-width: 260px !important;
+  max-height: 85vh !important;
+  padding: 12px 10px 10px 10px !important;
+  margin-bottom: 90px;
+}
+
+.modal-header-row {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  width: 100%;
+  margin-bottom: 18px;
+}
+
+.modal-tabs {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 4px !important;
+  margin-bottom: 3px !important;
+}
+
+.modal-tab {
+  margin-top: 0px;
+  top: 2px;
+  color: #fff;
+  background: #a7b9ea;
+  border: none;
+  height: 25px;
+  width: 85px;
+  border-radius: 4px;
+  font-size: 0.65rem;
+  font-weight: 300;
+  padding: 4px 10x;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-left: 0px;
+}
+
+.modal-tab.active {
+  background: #4a7aff;
+  color: #fff;
+}
+
+.modal-preview-content {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.modal-preview-content img {
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.modal-preview-content .modal-preview-placeholder {
+  color: #888;
+  font-size: 0.98rem;
+  margin-bottom: 8px;
+}
+
+.modal-preview-content:not(.hidden) {
+  display: block;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 4px;
+  right: 211px;
+  background: #ff9800;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.65rem;
+  height: 25px;
+  width: 75px;
+  font-weight: 300;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-right: 1px;
+}
+
+
+
+.modal-close-btn:hover {
+  background: #e3be93;
+}
+
+/* Logo Upload File Input Styles */
+.logo-upload-form input[type="file"] {
+  width: 100%;
+  font-size: 0.95rem;
+  color: #444;
+  border: 1.5px solid #dbeafe;
+  border-radius: 7px;
+  background: #fcfdff;
+  padding: 0;
+  height: 32px;
+  box-sizing: border-box;
+  transition: border 0.18s, box-shadow 0.18s;
+}
+
+.logo-upload-form input[type="file"]:focus {
+  border-color: #3ac9b0;
+  box-shadow: 0 0 0 2px #e3f6f3;
+}
+
+.logo-info-text {
+  font-size: 0.6rem;
+  color: #888;
+  margin-bottom: 2px;
+  margin-top: 2px;
+}
+
+.logo-upload-form img {
+  display: block;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(41, 79, 218, 0.06);
+  margin-bottom: 0 !important;
+}
+
+.colours-row {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  gap: 32px;
+  margin: 24px 0 0 0;
+  width: 100%;
+}
+
+.colour-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  min-width: 140px;
+  max-width: 200px;
+}
+
+.colour-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #444;
+  margin-bottom: 8px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.colour-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 18px rgba(41, 79, 218, 0.13);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.colour-primary {
+  background: #5956d6;
+}
+
+.colour-secondary {
+  background: #8e97f7;
+}
+
+.colour-tertiary {
+  background: #2ec4a5;
+}
+
+.colour-desc {
+  font-size: 0.75rem;
+  color: #6b6b6b;
+  text-align: center;
+  margin-bottom: 0;
+  max-width: 150px;
+}
+
+.colours-row-small {
+  margin: 38px 0 0 0;
+  gap: 32px;
+  justify-content: center;
+}
+
+.colour-small {
+  width: 45px!important;
+  height: 45px!important;
+  margin-bottom: 0;
+  box-shadow: 0 2px 8px rgba(41, 79, 218, 0.10);
+}
+
+#styles-tab-font {
+  max-width: 700px;
+}
+
+#styles-tab-font .font-search-input {
+  width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  padding-right: 38px;
+}
+
+#font-search-arrow {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%) rotate(0deg);
+  font-size: 16px;
+  color: #888;
+  transition: transform 0.2s;
+  z-index: 2;
+  pointer-events: auto;
+}
+#font-search-arrow.open {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.font-search-input {
+  width: 100%;
+  background: #f7f8fa;
+  border-radius: 8px;
+  border: 1.5px solid #ececec;
+  padding: 13px 40px 13px 16px;
+  font-size: 1.08rem;
+  color: #888;
+  margin-bottom: 24px;
+  outline: none;
+  transition: border 0.18s;
+  box-shadow: none;
+  appearance: none;
+  position: relative;
+}
+
+.font-search-input::placeholder {
+  color: #b0b4c1;
+  opacity: 1;
+}
+
+.font-search-input:disabled {
+  background: #f7f8fa;
+  color: #b0b4c1;
+  cursor: not-allowed;
+}
+
+/* Add a down arrow to the right of the input */
+.font-search-input:disabled {
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%23b0b4c1" height="18" viewBox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 18px 18px;
+}
+
+.font-dropdown {
+  position: absolute;
+  top: 44px;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  border: 1.5px solid #ececec;
+  border-radius: 8px;
+  box-shadow: 0 4px 18px rgba(41, 79, 218, 0.10);
+  z-index: 10;
+  max-height: 220px;
+  overflow-y: auto;
+  margin-top: 2px;
+}
+
+.font-option {
+  padding: 13px 18px;
+  font-size: 1.08rem;
+  color: #222;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  border-radius: 6px;
+}
+
+.font-option:hover,
+.font-option.selected {
+  background: #f7f8fa;
+  color: #f26522;
+}
+
+.payment-card.selected {
+  background: #d2f5e7;
+  border-color: #3ac9b0;
+}
+
+.plugin-card-icon img {
+  display: block;
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  margin-right: 0px;
+}
+
+.plugin-card-icon {
+  min-width: 25px;
+  min-height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 18px;
+}
+
+
+
+
+
+
+.plugin-section,
+.plugin-cards-group {
+  gap: 4px;
+  font-size : 0.8rem;
+}
+
+.payment-cards-group,
+.address-cards-group,
+.email-cards-group,
+.tax-cards-group,
+.reviews-cards-group,
+.search-cards-group {
+  display: flex;
+  flex-direction: column;
+  margin-top: 18px;
+  gap: 0px;
+  font-size : 0.6rem;
+
+}
+
+.payment-card,
+.address-card,
+.email-card,
+.tax-card,
+.reviews-card,
+.search-card {
+  display: flex;
+  align-items: flex-start;
+  background: #fff;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 9px;
+  padding: 10px 12px 10px 12px;
+  box-shadow: 0 2px 8px rgba(41, 79, 218, 0.06);
+  transition: background 0.18s, border 0.18s;
+  position: relative;
+  flex-direction: row;
+  gap: 2px;
+}
+.payment-card .plugin-card-icon-m,
+.address-card .plugin-card-icon-m,
+.email-card .plugin-card-icon-m,
+.tax-card .plugin-card-icon-m,
+.reviews-card .plugin-card-icon-m,
+.search-card .plugin-card-icon-m {
+  background: #b0b4c1;
+  color: #fff;
+  font-weight: 500;
+  font-size: 0.8rem;
+  width: 4px;
+  height: 8px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 18px;
+  margin-top:4px;
+}
+
+.payment-card .plugin-card-info,
+.address-card .plugin-card-info,
+.email-card .plugin-card-info,
+.tax-card .plugin-card-info,
+.reviews-card .plugin-card-info,
+.search-card .plugin-card-info {
+  flex: 1;
+}
+
+.payment-add-btn,
+.address-add-btn,
+.email-add-btn,
+.tax-add-btn,
+.reviews-add-btn,
+.search-add-btn {
+  background: #fff;
+  color: #3ac9b0;
+  border: 1.5px solid #3ac9b0;
+  border-radius: 4px;
+  font-size: 0.6rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s, border 0.18s;
+  margin-left: 0;
+  margin-top: 6px;
+  width: 50px;
+  height:20px;
+  padding-right:2px;
+}
+
+.payment-add-btn:hover,
+.address-add-btn:hover,
+.email-add-btn:hover,
+.tax-add-btn:hover,
+.reviews-add-btn:hover,
+.search-add-btn:hover {
+  background: #3ac9b0;
+  color: #fff;
+}
+
+.payment-card:hover,
+.address-card:hover,
+.email-card:hover,
+.tax-card:hover,
+.reviews-card:hover,
+.search-card:hover {
+  background: #d2f5e7;
+}
+
+.address-card.selected .address-add-btn,
+.email-card.selected .email-add-btn,
+.tax-card.selected .tax-add-btn,
+.reviews-card.selected .reviews-add-btn,
+.search-card.selected .search-add-btn {
+  background: #fff0f0;
+  color: #e74c3c;
+  border: 1.5px solid #e74c3c;
+}
+
+.address-card.selected .address-add-btn:hover,
+.email-card.selected .email-add-btn:hover,
+.tax-card.selected .tax-add-btn:hover,
+.reviews-card.selected .reviews-add-btn:hover,
+.search-card.selected .search-add-btn:hover {
+  background: #fff0f0;
+  color: #e74c3c;
+  border: 1.5px solid #e74c3c;
+}
+.plugin-card-title{
+  font-size : 0.7rem !important;
+  margin-bottom : 6px!important;
+}
+
+#styles-tab-colours .wizard-card {
+  max-width: 700px !important;
+  width: 100% !important;
+  min-width: 400px !important;
+  margin: 0 auto !important;
+  box-sizing: border-box !important;
+}
+
+#styles-tab-font,
+#styles-tab-theme {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  width: 80vw !important;
+  max-width: 930px !important;
+}
+
+#styles-step-card {
+  background: #f5f8fa !important;
+  box-shadow: none !important;
+  padding: 8px 20px 8px 20px !important;
+  width: 95vw !important;
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+#plugin-step .wizard-card {
+  background: #f5f8fa !important;
+  box-shadow: none !important;
+  margin-left: 50px;
+  margin-right: 0;
+}
+
+
+#system-step-card {
+  margin-top: 0px;
+  background: #f5f8fa !important;
+  box-shadow: none !important;
+  padding: 12px 16px 10px 16px !important;
+}
+
+#store-info-card {
+  background: #f5f8fa !important;
+  box-shadow: none !important;
+  margin-left: 50px;
+  margin-right: 0;
+}
+
+
+.wizard-title {
+  font-size: 1.1rem;
+}
+
+.wizard-desc,
+.wizard-label,
+.wizard-char-count,
+.wizard-name-available {
+  font-size: 0.8Srem;
+}
+
+.wizard-input {
+  font-size: 1rem;
+  padding: 8px 32px 8px 8px;
+}
+
+.wizard-input-check {
+  font-size: 1.1em;
+  right: 6px;
+}
+
+.wizard-info-box {
+  font-size: 0.65rem;
+}
+
+.wizard-info-box strong {
+  font-size: 0.7rem;
+}
+
+.wizard-form-actions {
+  margin-top: 10px;
+}
+
+
+
+.wizard-nav-btns {
+  gap: 6px;
+  max-width: 100vw;
+  padding: 0 2vw;
+}
+
+.progress-bar-container {
+  max-width: 100vw;
+  padding: 0 2vw;
+}
+
+.styles-tabs {
+  gap: 8px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.styles-tab {
+  font-size: 0.75rem;
+  padding: 3px 6px 5px 6px;
+}
+
+.theme-options {
+  gap: 12px;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.theme-card {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 8px 12px;
+  flex: 1;
+  min-width: 0;
+}
+
+.theme-logo {
+  width: 32px;
+  height: 32px;
+}
+
+.theme-title {
+  font-size: 0.85rem;
+}
+
+.theme-desc {
+  font-size: 0.7rem;
+}
+
+.theme-image-preview img {
+  width: 90vw;
+  max-width: 100%;
+}
+
+.colours-row,
+.colours-row-small {
+  flex-direction: column;
+  gap: 18px;
+  align-items: center;
+  margin: 18px 0 0 0;
+}
+
+.colour-col {
+  min-width: 0;
+}
+
+.colour-circle {
+  width: 44px;
+  height: 44px;
+}
+
+.colour-small {
+  width: 32px;
+  height: 32px;
+}
+
+
+#styles-tab-font .font-search-input {
+  width: 100%;
+  min-width: 0;
+  padding-right: 28px;
+  max-width: none;
+}
+
+.font-search-arrow {
+  right: 8px;
+  font-size: 1em;
+}
+
+.font-search-input {
+  font-size: 0.98rem;
+  padding: 10px 28px 10px 8px;
+}
+
+.font-dropdown {
+  max-width: 100%;
+  width: 100%;
+}
+
+/* Magento Product Preview Modal Styles */
+.magento-product-preview {
+  font-family: 'Montserrat', Arial, sans-serif;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(41, 79, 218, 0.08);
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  max-width: 100%;
+}
+
+.magento-header {
+  display: flex;
+  align-items: center;
+  background: #ffbfbf;
+  padding: 18px 24px 12px 24px;
+  border-radius: 12px 12px 0 0;
+  justify-content: space-between;
+}
+
+.magento-logo {
+  height: 38px;
+  margin-right: 18px;
+}
+
+.magento-nav {
+  display: flex;
+  gap: 18px;
+  flex: 1;
+}
+
+.magento-nav a {
+  color: #d44b4b;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1.08rem;
+  padding: 4px 0;
+  transition: color 0.2s;
+}
+
+.magento-nav a:hover {
+  color: #222;
+}
+
+.magento-header-icons {
+  display: flex;
+  gap: 14px;
+  font-size: 1.3em;
+  color: #d44b4b;
+}
+
+.magento-breadcrumbs {
+  font-size: 0.98rem;
+  color: #888;
+  margin: 12px 0 0 24px;
+  padding-bottom: 8px;
+}
+
+.magento-product-main {
+  display: flex;
+  gap: 32px;
+  padding: 24px;
+  background: #fff;
+}
+
+.magento-product-image {
+  flex: 1 1 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fafafa;
+  border-radius: 8px;
+  padding: 18px;
+  min-width: 220px;
+  max-width: 260px;
+}
+
+.magento-product-image img {
+  width: 100%;
+  max-width: 220px;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.magento-product-info {
+  flex: 2 1 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.magento-product-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #e53935;
+  margin: 0 0 8px 0;
+}
+
+.magento-rating {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 6px;
+}
+
+.magento-star {
+  font-size: 1.2em;
+  color: #ffd600;
+}
+
+.magento-star.filled {
+  color: #ffd600;
+}
+
+.magento-product-desc {
+  font-size: 1.08rem;
+  color: #d44b4b;
+  margin-bottom: 8px;
+}
+
+.magento-stock {
+  color: #43a047;
+  font-size: 1.01rem;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.magento-stock-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background: #43a047;
+  border-radius: 50%;
+}
+
+.magento-product-attrs {
+  font-size: 1.01rem;
+  color: #888;
+  margin-bottom: 8px;
+  border-collapse: collapse;
+}
+
+.magento-product-attrs td {
+  padding: 2px 12px 2px 0;
+}
+
+.magento-product-attrs td:first-child {
+  color: #d44b4b;
+  font-weight: 500;
+  min-width: 70px;
+}
+
+.magento-product-price {
+  font-size: 2rem;
+  color: #e53935;
+  font-weight: 700;
+  margin: 10px 0 8px 0;
+}
+
+.magento-product-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.magento-qty-input {
+  width: 48px;
+  padding: 6px 8px;
+  font-size: 1.08rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: #f7f7f7;
+  color: #888;
+}
+
+.magento-add-to-cart {
+  background: #e53935;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.08rem;
+  font-weight: 600;
+  padding: 10px 28px;
+  cursor: not-allowed;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.2s;
+  opacity: 0.7;
+}
+
+.magento-cart-icon {
+  font-size: 1.2em;
+}
+
+/* Magento Product Preview Real Styles */
+.magento-product-preview-real {
+  font-family: 'Montserrat', Arial, sans-serif;
+  background: #fff;
+  border-radius: 6px !important;
+  box-shadow: 0 2px 8px rgba(41, 79, 218, 0.08) !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.magento-header-real {
+  display: flex;
+  align-items: center;
+  background: #ffc6c6;
+  padding: 18px 32px 12px 32px;
+  border-radius: 3px !important;
+  justify-content: space-between;
+  min-height: 60px;
+}
+
+.magento-logo-real {
+  height: 35px;
+  max-height: 35px;
+  width: auto;
+  margin-right: 24px;
+}
+
+.magento-nav-real {
+  display: flex;
+  gap: 24px;
+  flex: 1;
+  align-items: center;
+}
+
+.magento-nav-real a,
+.magento-nav-dropdown {
+  color: #d44b4b;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1.08rem;
+  padding: 4px 0;
+  transition: color 0.2s;
+  cursor: pointer;
+  position: relative;
+}
+
+.magento-nav-real a:hover,
+.magento-nav-dropdown:hover {
+  color: #222;
+}
+
+.magento-nav-arrow {
+  font-size: 0.8em;
+  margin-left: 4px;
+}
+
+.magento-header-icons-real {
+  display: flex;
+  gap: 18px;
+  font-size: 1.3em;
+  color: #7d7d7d;
+  align-items: center;
+}
+
+.magento-icon-real {
+  vertical-align: middle;
+}
+
+.magento-breadcrumbs-real {
+  font-size: 1.01rem;
+  color: #888;
+  margin: 18px 0 0 32px;
+  padding-bottom: 8px;
+}
+
+.magento-product-main-real {
+  display: flex;
+  gap: 48px;
+  padding: 40px 48px 32px 48px;
+  background: #fff;
+  align-items: flex-start;
+}
+
+.magento-product-image-real {
+  flex: 1 1 340px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fafafa;
+  border-radius: 12px;
+  padding: 32px;
+  min-width: 320px;
+  max-width: 400px;
+  min-height: 340px;
+  box-shadow: 0 2px 8px rgba(41, 79, 218, 0.04);
+}
+
+.magento-product-image-real img {
+  width: 100%;
+  max-width: 320px;
+  border-radius: 8px;
+  background: #fff;
+  object-fit: contain;
+}
+
+.magento-product-info-real {
+  flex: 2 1 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 320px;
+}
+
+.magento-product-title-real {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #e53935;
+  margin: 0 0 10px 0;
+  line-height: 1.1;
+}
+
+.magento-rating-real {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 8px;
+}
+
+.magento-product-desc-real {
+  font-size: 1.08rem;
+  color: #d44b4b;
+  margin-bottom: 10px;
+  line-height: 1.5;
+  max-width: 540px;
+}
+
+.magento-stock-real {
+  color: #43a047;
+  font-size: 1.01rem;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+}
+
+.magento-stock-dot-real {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background: #43a047;
+  border-radius: 50%;
+}
+
+.magento-product-attrs-real {
+  font-size: 1.01rem;
+  color: #888;
+  margin-bottom: 12px;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.magento-product-attrs-real td {
+  padding: 2px 18px 2px 0;
+  font-size: 1.01rem;
+}
+
+.magento-product-attrs-real td:first-child {
+  color: #d44b4b;
+  font-weight: 500;
+  min-width: 90px;
+  text-align: left;
+}
+
+.magento-product-attrs-real td:last-child {
+  color: #888;
+  font-weight: 400;
+  text-align: left;
+}
+
+.magento-product-price-real {
+  font-size: 2.2rem;
+  color: #e53935;
+  font-weight: 700;
+  margin: 18px 0 12px 0;
+}
+
+.magento-product-actions-real {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.magento-qty-input-real {
+  width: 32px !important;
+  height: 24px !important;
+  font-size: 0.8rem !important;
+  padding: 2px 6px !important;
+}
+
+.magento-add-to-cart-real {
+  height: 28px !important;
+  font-size: 0.85rem !important;
+  padding: 4px 14px !important;
+}
+
+.magento-add-to-cart-real svg {
+  width: 16px !important;
+  height: 16px !important;
+  margin-right: 4px !important;
+}
+
+/* Magento Mobile Product Preview Real Styles */
+.magento-mobile-preview-real {
+  font-family: 'Montserrat', Arial, sans-serif;
+  background: #fff;
+  box-shadow: 0 2px 12px rgba(41, 79, 218, 0.08);
+  padding: 0;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 400px;
+  min-height: 650px;
+}
+
+.magento-mobile-header-real {
+  display: flex;
+  align-items: center;
+  background: #ffc6c6;
+  padding: 12px 16px 8px 16px;
+  justify-content: space-between;
+  min-height: 54px;
+  position: relative;
+}
+
+.magento-mobile-logo-real {
+  height: 35px;
+  max-height: 35px;
+  width: auto;
+  margin-right: 8px;
+}
+
+.magento-mobile-header-icons-real {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.magento-mobile-hamburger {
+  margin-right: 8px;
+}
+
+.magento-mobile-icon-real {
+  vertical-align: middle;
+}
+
+.magento-mobile-breadcrumbs-real {
+  font-size: 1.01rem;
+  color: #e53935;
+  margin: 14px 0 0 0;
+  padding-bottom: 8px;
+  text-align: left;
+}
+
+.magento-mobile-product-title-real {
+  font-size: 2rem;
+  font-weight: bolder;
+  color: #cd3836;
+  margin: 18px 0 12px 0;
+  text-align: center;
+  line-height: 1.1;
+}
+
+.magento-mobile-product-image-real {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  /* Remove border-radius for Magento look */
+  border-radius: 0;
+  padding: 32px 0 32px 0;
+  margin: 0 0 0 0;
+  min-height: 260px;
+  box-shadow: none;
+}
+
+.magento-mobile-product-image-real img {
+  width: 100%;
+  max-width: 320px;
+  border-radius: 0;
+  background: #fff;
+  object-fit: contain;
+}
+
+.magento-mobile-rating-desc-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 18px 0 0 16px;
+  font-size: 1.08rem;
+}
+
+.magento-mobile-rating-real {
+  display: flex;
+  gap: 2px;
+  margin: 0;
+}
+
+.magento-mobile-desc-firstline {
+  color: #d44b4b;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.4;
+  display: block;
+  margin: 12px 16px 0 16px;
+}
+
+img,
+.wizard-card img,
+.theme-image-preview img,
+.logo-upload-form img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Hamburger menu styles */
+.hamburger-menu {
+  display: none;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1001;
+  background: #4a7aff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.close-sidebar {
+  display: none;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  color: #4a7aff;
+  cursor: pointer;
+  z-index: 1002;
+}
+
+
+.colour-picker {
+  cursor: pointer;
+  position: relative;
+}
+
+.colour-popup {
+  display: none;
+  position: absolute;
+  top: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  border: 1.5px solid #e0e7ef;
+  border-radius: 10px;
+  box-shadow: 0 4px 18px rgba(41, 79, 218, 0.13);
+  padding: 14px 16px 10px 16px;
+  z-index: 1002;
+  min-width: 180px;
+}
+
+.colour-popup.active {
+  display: block;
+}
+
+.colour-palette {
+  display: grid;
+  grid-template-columns: repeat(6, 28px);
+  gap: 10px;
+  justify-content: center;
+}
+
+.colour-swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid #e0e7ef;
+  cursor: pointer;
+  transition: border 0.18s, box-shadow 0.18s;
+  box-shadow: 0 2px 8px rgba(41, 79, 218, 0.08);
+}
+
+.colour-swatch:hover,
+.colour-swatch.selected {
+  border: 2.5px solid #4a7aff;
+  box-shadow: 0 4px 12px rgba(41, 79, 218, 0.18);
+}
+
+.theme-text-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 420px;
+  width: 100%;
+}
+
+.version-dependencies-section {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.version-dependencies-title {
+  font-size: 1.20rem;
+  font-weight: 500;
+  color: #222;
+  margin-bottom: 18px;
+  margin-left: 6px;
+}
+
+.version-dependencies-cards {
+  display: flex;
+  gap: 22px;
+  justify-content: center;
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+
+.version-dependency-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px 24px 14px 24px;
+  min-width: 250px;
+  max-width: 250px;
+  height: 70px;
+  flex: 1 1 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 18px;
+  transition: box-shadow 0.2s;
+}
+
+.version-dependency-card:hover {
+  box-shadow: 0 4px 24px rgba(41, 79, 218, 0.13);
+}
+
+.dependency-icon {
+  width: 50px;
+  height: 50px;
+  background: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  box-shadow: 0 1px 6px rgba(41, 79, 218, 0.07);
+}
+
+.dependency-icon img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  filter: brightness(1.1) contrast(1.1);
+}
+
+.dependency-label {
+  font-size: 0.9rem;
+  color: #222;
+  text-align: center;
+  margin-top: 2px;
+  font-weight: 500;
+}
+
+
+.custom-dropdown.selected {
+  border: 1.5px solid #2993da;
+  border-radius: 10px;
+  box-shadow: 0 0 0 4px rgba(41, 79, 218, 0.08), 0 3px 10px rgba(41, 79, 218, 0.10);
+}
+
+.version-dependency-card.selected {
+  border: 1.5px solid #2993da;
+  box-shadow: 0 0 0 2px rgba(41, 79, 218, 0.08), 0 3px 10px rgba(41, 79, 218, 0.10);
+}
+
+.wizard-step-system .wizard-nav-btns,
+.wizard-nav-btns,
+#plugin-step .wizard-nav-btns,
+#summary-step .wizard-nav-btns {
+  margin-right: 32px;
+}
+
+.platform-option {
+  width: 300px !important;
+  min-width: 290px !important;
+  max-width: 290px !important;
+  min-height: 85px !important;
+}
+
+.version-dependency-card {
+  min-width: 205px;
+  max-width: 205px;
+  padding: 8px 4px 6px 4px;
+}
+
+.dependency-label {
+  font-size: 0.6rem;
+}
+
+.version-dependency-card {
+  height: 48px;
+}
+
+.dependency-icon {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 6px;
+}
+
+.dependency-icon img {
+  width: 23px;
+  height: 23px;
+}
+
+.wizard-title {
+  font-size: 1.1rem !important;
+  margin-bottom: 2px !important;
+}
+
+
+.version-dependencies-cards {
+  gap: 8px !important;
+  margin-bottom: 0 !important;
+}
+
+.version-dependency-card {
+  margin-bottom: 6px !important;
+}
+
+.wizard-nav-btns {
+  margin-bottom: 4px !important;
+  gap: 4px !important;
+  padding: 0 !important;
+}
+
+.header-progress-row {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  padding: 10px 0 0 20px;
+  width: 100%;
+  background: transparent;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
+
+.header-progress-row .brand-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #4a7aff;
+  line-height: 1.1;
+  letter-spacing: -1px;
+  padding: 0;
+}
+
+.header-progress-row .progress-bar-container {
+  flex: 1;
+  margin: 0 0 0 24px;
+  padding-top: 0;
+}
+
+.wizard-topbar-row {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  padding: 0 32px 0 0;
+  width: 100%;
+  margin-top: 35px;
+  margin-bottom: 0px;
+  position: relative;
+  /* Not fixed or absolute */
+  z-index: 1;
+  min-height: 25px;
+}
+
+.wizard-topbar-row .wizard-back-btn {
+  background: #ff9800;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.65rem;
+  height: 25px;
+  width: 75px;
+  font-weight: 300;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-right: 0;
+}
+
+.wizard-topbar-row .wizard-back-btn:hover {
+  background: #e3be93;
+}
+
+.wizard-topbar-row .wizard-next-btn {
+  background: #4a7aff;
+  color: #fff;
+  border: none;
+  height: 25px;
+  width: 75px;
+  border-radius: 4px;
+  font-size: 0.65rem;
+  font-weight: 300;
+  padding: 4px 10x;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-right: 30px;
+}
+
+.wizard-topbar-row .wizard-next-btn:hover {
+  background: #a7b9ea;
+}
+
+#store-next-btn {
+  background: #4a7aff;
+  color: #fff;
+  border: none;
+  height: 25px;
+  width: 75px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 300;
+  padding: 4px 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.wizard-input {
+  padding: 2px 16px 2px 6px;
+  font-size: 0.8rem;
+  height: 20px;
+  line-height: 1.2;
+  border: 1px solid black;
+}
+
+.wizard-input.valid-input {
+  border: 2px solid #3ac9b0 !important;
+}
+
+.custom-file-input {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  background: #ffffffa8;
+  border: 1.5px solid #b0b4c1;
+  border-radius: 5px;
+  padding: 0px 0px;
+  font-size: 0.8rem;
+  color: #222;
+  position: relative;
+}
+
+.custom-file-input input[type="file"] {
+  display: none;
+}
+
+.custom-file-filename {
+  flex: 1;
+  color: #888;
+  font-size: 0.8rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.file-btn {
+  background: #e0e2e6;
+  color: #222;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+.file-btn:hover {
+  background: #d5e7fd;
+}
+
+#colours-preview-btn {
+  width: 90% !important;
+  margin: 40px auto 0 auto !important;
+  display: block !important;
+  border-radius: 24px !important;
+  font-size: 0.8rem !important;
+  height: 25px !important;
+  line-height: 1px !important;
+  color: #4a7aff !important;
+  border: 2px solid #4a7aff !important;
+  background: #fff !important;
+  transition: background 0.2s, color 0.2s !important;
+  text-align: center !important;
+  font-weight: 400 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+#colours-preview-btn:hover {
+  background: #f5f8fa !important;
+  color: #4a7aff !important;
+  border-color: #4a7aff !important;
+}
+
+#styles-tab-colours .colours-row {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  align-items: flex-start !important;
+  max-width: 600px !important;
+  margin: 0 auto !important;
+  width: 100% !important;
+  gap: 0 !important;
+}
+
+#styles-tab-colours .colour-col {
+  width: 180px !important;
+  min-width: 140px !important;
+  max-width: 200px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+}
+
+#styles-tab-colours .colours-row-small {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 32px !important;
+  margin: 38px auto 0 auto !important;
+  width: 100% !important;
+  max-width: 320px !important;
+  margin-top: 45px !important;
+}
+
+#styles-tab-colours .colours-row-small {
+  margin-top: 45px !important;
+}
+
+#styles-tab-colours .colour-desc {
+  margin-bottom: 0 !important;
+  padding-bottom: 20px !important;
+}
+
+
+#styles-tab-colours .wizard-title {
+  text-align: left !important;
+  width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  display: block !important;
+  margin-bottom: 12px !important;
+  padding-left: 8px !important;
+}
+
+#styles-tab-colours .wizard-label {
+  text-align: left !important;
+  width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  display: block !important;
+  margin-top: 0 !important;
+  margin-bottom: 32px !important;
+  padding-left: 8px !important;
+}
+
+#styles-step .wizard-card {
+  max-width: 950px !important;
+  width: 950px !important;
+  margin: 0 auto !important;
+  box-sizing: border-box !important;
+}
+
+#styles-tab-colours .wizard-card {
+  max-width: 520px !important;
+  width: 100% !important;
+  min-width: 320px !important;
+  margin: 0 auto !important;
+  box-sizing: border-box !important;
+}
+
+#styles-tab-colours .colours-row {
+  max-width: 480px !important;
+  width: 100% !important;
+  gap: 12px !important;
+  margin: 0 auto !important;
+}
+
+#styles-tab-colours .colour-col {
+  width: 140px !important;
+  min-width: 100px !important;
+  max-width: 160px !important;
+}
+
+#styles-tab-colours .colour-circle {
+  width: 50px !important;
+  height: 50px !important;
+  margin-bottom: 18px !important;
+  box-shadow: 0 4px 18px rgba(41, 79, 218, 0.13) !important;
+}
+
+/* Border for selected small circle */
+.colour-circle.colour-small.selected-border {
+  border: 3px solid var(--selected-border-color, var(--selected-color, #000)) !important;
+  box-shadow: none !important;
+}
+
+/* Glow for selected large circle */
+.colour-circle.selected-glow {
+  box-shadow: 0 0 0 8px var(--selected-color, #00ff00), 0 4px 18px rgba(41, 79, 218, 0.13) !important;
+  border: none !important;
+}
+
+#styles-tab-theme>.wizard-card {
+  max-width: 900px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  box-sizing: border-box !important;
+}
+
+#styles-tab-logo>.wizard-card {
+  max-width: 900px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  box-sizing: border-box !important;
+}
+
+#styles-tab-font>.wizard-card {
+  max-width: 500px !important;
+  width: 100% !important;
+  height: 200px !important;
+  margin: 0 auto !important;
+  box-sizing: border-box !important;
+}
+
+#styles-tab-font .font-search-input {
+  max-width: 380px !important;
+  width: 100% !important;
+  height: 20px !important;
+  font-size: 0.7rem !important;
+  padding: 6px 24px 6px 10px !important;
+  margin-bottom: 4px !important;
+  border-radius: 5px;
+}
+
+#styles-tab-font .font-search-arrow {
+  right: 10px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  font-size: 1em !important;
+}
+
+#styles-tab-font #font-preview-box {
+  max-width: 416px !important;
+  width: 100% !important;
+  min-height: 20px !important;
+  font-size: 0.7rem !important;
+  padding: 6px 9px !important;
+  border-radius: 5px !important;
+  margin-left: 10px;
+}
+
+/* #styles-tab-font .wizard-card>div {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+} */
+
+#styles-tab-font label {
+  font-size: 0.7rem !important;
+}
+
+#styles-tab-font input[type='checkbox'] {
+  width: 13px !important;
+  height: 13px !important;
+}
+
+input[type='radio'] {
+  width: 16px !important;
+  height: 16px !important;
+}
+
+.logo-upload-form .wizard-label {
+  font-size: 0.85rem !important;
+  font-weight: 500 !important;
+}
+
+.modal-preview-content#modal-preview-desktop {
+  font-size: 0.85rem !important;
+}
+
+.magento-product-title-real {
+  font-size: 1.1rem !important;
+}
+
+.magento-product-desc-real {
+  font-size: 0.8rem !important;
+}
+
+.magento-product-attrs-real {
+  font-size: 0.8rem !important;
+}
+
+.magento-product-price-real {
+  font-size: 1.1rem !important;
+}
+
+.magento-stock-real {
+  font-size: 0.8rem !important;
+}
+
+.magento-header-real {
+  font-size: 0.8rem !important;
+}
+
+.magento-header-real {
+  min-height: 36px !important;
+  padding: 8px 16px 6px 16px !important;
+}
+
+.magento-breadcrumbs-real {
+  text-align: left !important;
+  font-size: 0.8rem !important;
+  margin: 8px 0 0 8px !important;
+  padding-bottom: 4px !important;
+}
+
+.magento-product-image {
+  max-width: 180px !important;
+  min-width: 120px !important;
+  min-height: 100px !important;
+  padding: 10px !important;
+}
+
+.magento-nav a {
+  font-size: 0.8rem !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: space-evenly;
+  gap: 2px !important;
+}
+
+.magento-nav-arrow {
+  font-size: 0.8 !important;
+  margin-left: 0 !important;
+  vertical-align: middle !important;
+}
+
+.magento-nav-real a,
+.magento-nav-real .magento-nav-dropdown {
+  font-size: 0.8rem !important;
+}
+
+.magento-nav-arrow {
+  font-size: 0.8em !important;
+}
+
+/* Compact font dropdown styles */
+#font-dropdown {
+  min-width: 400px !important;
+  max-width: 400px !important;
+  width: 400px !important;
+  height:150px;
+  font-size: 5px !important;
+  padding: 4px 0 !important;
+  border-radius: 6px !important;
+}
+#font-dropdown .font-option {
+  font-size: 5px !important;
+  padding: 6px 12px !important;
+  min-height: 15px !important;
+}
+#font-dropdown .font-option:not(:last-child) {
+  margin-bottom: 2px !important;
+}
+
+.font-dropdown-trigger {
+  width: 100%;
+  min-width: 120px;
+  max-width: 410px;
+  height: 18px !important;
+  background: #f7f8fa;
+  border: 1.5px solid #ececec;
+  border-radius: 4px;
+  padding: 4px 24px 4px 10px;
+  font-size: 0.7rem;
+  color: #222;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  position: relative;
+  user-select: none;
+  transition: border 0.2s;
+  margin-left:2px;
+}
+#font-dropdown-trigger:focus, #font-dropdown-trigger:hover {
+  border-color: #b0b4c1;
+  outline: none;
+}
+#font-search-arrow {
+  right: 16px;
+  pointer-events: auto;
+}
+
+#desktop-logo-preview {
+  height : 100px;
+}
+#mobile-logo-preview { 
+  height: 50px;
+}
+.plugin-section-title {
+  font-size: 1rem;
+  font-weight: 500 !important;
+}
+
+
+.plugin-card,
+.payment-card,
+.address-card,
+.email-card,
+.tax-card,
+.reviews-card,
+.search-card {
+  min-height: 44px !important;
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+}
+.cancel-btn {
+  color: #e53935 !important;
+  border: 1.5px solid #e53935 !important;
+  background: #fff0f0 !important;
+  padding:4px;
+}
+/* Selected card background */
+.plugin-card.selected,
+.payment-card.selected,
+.address-card.selected,
+.email-card.selected,
+.tax-card.selected,
+.reviews-card.selected,
+.search-card.selected {
+  background: #d2f5e7 !important;
+}
