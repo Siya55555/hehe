@@ -892,6 +892,66 @@ if (document.readyState === 'loading') {
   setupCustomFileInputs();
 }
 
+// --- Logo Image Preview for Desktop and Mobile Logo ---
+function setupLogoImagePreviews() {
+  const desktopLogoInput = document.getElementById('desktop-logo');
+  const desktopLogoPreview = document.getElementById('desktop-logo-preview');
+  // Magento logo in Desktop preview modal
+  const magentoLogoReal = document.querySelector('.magento-logo-real');
+  const defaultMagentoLogo = 'https://upload.wikimedia.org/wikipedia/commons/2/2a/Magento_Logo.svg';
+
+  if (desktopLogoInput && desktopLogoPreview) {
+    desktopLogoInput.addEventListener('change', function () {
+      const file = this.files[0];
+      if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          desktopLogoPreview.src = e.target.result;
+          desktopLogoPreview.style.display = 'block';
+          if (magentoLogoReal) magentoLogoReal.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        desktopLogoPreview.src = '';
+        desktopLogoPreview.style.display = 'none';
+        if (magentoLogoReal) magentoLogoReal.src = defaultMagentoLogo;
+      }
+    });
+  }
+
+  const mobileLogoInput = document.getElementById('mobile-logo');
+  const mobileLogoPreview = document.getElementById('mobile-logo-preview');
+  // Magento logo in Mobile preview modal
+  const magentoMobileLogoReal = document.querySelector('.magento-mobile-logo-real');
+  const defaultMagentoMobileLogo = 'https://upload.wikimedia.org/wikipedia/commons/2/2a/Magento_Logo.svg';
+
+  if (mobileLogoInput && mobileLogoPreview) {
+    mobileLogoInput.addEventListener('change', function () {
+      const file = this.files[0];
+      if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          mobileLogoPreview.src = e.target.result;
+          mobileLogoPreview.style.display = 'block';
+          if (magentoMobileLogoReal) magentoMobileLogoReal.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        mobileLogoPreview.src = '';
+        mobileLogoPreview.style.display = 'none';
+        if (magentoMobileLogoReal) magentoMobileLogoReal.src = defaultMagentoMobileLogo;
+      }
+    });
+  }
+}
+
+// Call on DOMContentLoaded
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', setupLogoImagePreviews);
+} else {
+  setupLogoImagePreviews();
+}
+
 // Debug: Global click handler for font-option
 document.body.addEventListener('click', function(e) {
   if (e.target.classList && e.target.classList.contains('font-option')) {
@@ -915,4 +975,95 @@ if (mobileLogoInput && mobileFilename) {
     const fileName = this.files[0] ? this.files[0].name : 'No file chosen';
     mobileFilename.textContent = fileName;
   });
+}
+
+// --- Font Dropdown and Preview Functionality ---
+function setupFontDropdown() {
+  const fontDropdownTrigger = document.getElementById('font-dropdown-trigger');
+  const fontDropdown = document.getElementById('font-dropdown');
+  const fontOptions = fontDropdown ? fontDropdown.querySelectorAll('.font-option') : [];
+  const fontPreviewBox = document.getElementById('font-preview-box');
+  const defaultFontCheckbox = document.getElementById('default-font-checkbox');
+
+  // Always show placeholder in search box
+  if (fontDropdownTrigger) {
+    fontDropdownTrigger.value = '';
+    fontDropdownTrigger.setAttribute('placeholder', 'search font');
+    fontDropdownTrigger.classList.add('font-search-placeholder');
+    // Hide placeholder on focus, show on blur if empty
+    fontDropdownTrigger.addEventListener('focus', function() {
+      fontDropdownTrigger.setAttribute('placeholder', '');
+    });
+    fontDropdownTrigger.addEventListener('blur', function() {
+      if (!fontDropdownTrigger.value) {
+        fontDropdownTrigger.setAttribute('placeholder', 'search font');
+      }
+    });
+  }
+
+  // Show/hide dropdown on trigger click
+  if (fontDropdownTrigger && fontDropdown) {
+    fontDropdownTrigger.addEventListener('click', function (e) {
+      e.stopPropagation();
+      fontDropdown.classList.toggle('hidden');
+    });
+    // Hide dropdown if click outside
+    document.addEventListener('click', function (e) {
+      if (!fontDropdown.contains(e.target) && e.target !== fontDropdownTrigger) {
+        fontDropdown.classList.add('hidden');
+      }
+    });
+  }
+
+  // Font selection logic
+  fontOptions.forEach(option => {
+    option.addEventListener('click', function () {
+      const fontName = option.getAttribute('data-font');
+      // Set preview box text and style
+      if (fontPreviewBox) {
+        fontPreviewBox.textContent = fontName;
+        fontPreviewBox.style.fontFamily = option.style.fontFamily;
+      }
+      // Uncheck default font checkbox
+      if (defaultFontCheckbox) {
+        defaultFontCheckbox.checked = false;
+      }
+      // Close dropdown
+      if (fontDropdown) {
+        fontDropdown.classList.add('hidden');
+      }
+      // Do NOT update the search box text, keep placeholder only
+    });
+  });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', setupFontDropdown);
+} else {
+  setupFontDropdown();
+}
+
+// --- Add/Cancel Toggle for Plugin Add Buttons ---
+function setupPluginAddCancelButtons() {
+  const addBtns = document.querySelectorAll('.plugin-card-btn, .payment-add-btn, .address-add-btn, .email-add-btn, .tax-add-btn, .reviews-add-btn, .search-add-btn');
+  addBtns.forEach(btn => {
+    btn.addEventListener('click', function () {
+      const card = btn.closest('.plugin-card, .payment-card, .address-card, .email-card, .tax-card, .reviews-card, .search-card');
+      if (btn.classList.contains('cancel-btn')) {
+        btn.textContent = 'Add';
+        btn.classList.remove('cancel-btn');
+        if (card) card.classList.remove('selected');
+      } else {
+        btn.textContent = 'Cancel';
+        btn.classList.add('cancel-btn');
+        if (card) card.classList.add('selected');
+      }
+    });
+  });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', setupPluginAddCancelButtons);
+} else {
+  setupPluginAddCancelButtons();
 }
