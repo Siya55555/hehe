@@ -209,7 +209,6 @@
                     <input type="file" id="desktop-logo" name="desktop-logo" class="custom-file-input"
                       accept="image/png, image/jpeg, image/jpg, image/svg+xml" />
                   </div>
-                  <span class="custom-file-filename"></span>
                   <div class="logo-info-text">Minimum size: 600x300px. Allowed formats: jpg, jpeg, png, svg.</div>
                   <img id="desktop-logo-preview" src="" alt="Desktop logo preview"
                     style="width:220px; margin:12px 0 24px 0; border-radius:8px; display:none;" />
@@ -220,7 +219,6 @@
                     <input type="file" id="mobile-logo" name="mobile-logo" class="custom-file-input"
                       accept="image/png, image/jpeg, image/jpg, image/svg+xml" />
                   </div>
-                  <span class="custom-file-filename"></span>
                   <div class="logo-info-text">Minimum size: 100x50px. Allowed formats: jpg, jpeg, png, svg.</div>
                   <img id="mobile-logo-preview" src="" alt="Mobile logo preview"
                     style="width:120px; margin:12px 0 24px 0; border-radius:8px; display:none;" />
@@ -358,9 +356,7 @@
                   </label>
                 </div>
                 <div style="position:relative;">
-                  <div class="font-dropdown-trigger" id="font-dropdown-trigger" tabindex="0">
-                    Montserrat
-                  </div>
+                  <input type="text" class="font-dropdown-trigger" id="font-dropdown-trigger" placeholder="search font" autocomplete="off" tabindex="0" />
                   <span class="font-search-arrow" id="font-search-arrow">&#9662;</span>
                   <div class="font-dropdown hidden" id="font-dropdown">
                     <div class="font-option" data-font="Montserrat" style="font-family: 'Montserrat', sans-serif;">
@@ -563,7 +559,7 @@
                     <div class="plugin-card-icon plugin-card-icon-m">F</div>
                     <div class="plugin-card-info">
                       <div class="plugin-card-title">Fastlane</div>
-                      <div class="plugin-card-desc">PayPal Fastlane – A one-click checkout solution that streamlines
+                      <div class="plugin-card-desc">PayPal Fastlane - A one-click checkout solution that streamlines
                         transactions and improves conversion rates for merchants.</div>
                     </div>
                     <button class="plugin-card-btn payment-add-btn">Add</button>
