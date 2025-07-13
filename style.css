@@ -1,7 +1,9 @@
 html,
 body {
-  max-width: 100vw;
-  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
 }
 
 input,
@@ -21,8 +23,8 @@ body {
   position: static;
   top: unset;
   left: unset;
-  height: 100vh;
-  min-height: 100vh;
+  height: 898px;
+  min-height: unset;
   box-shadow: 0 4px 24px rgba(41, 79, 218, 0.08);
   border-radius: 0 8px 8px 0;
   display: flex;
@@ -144,7 +146,7 @@ body {
   padding: 18px 22px 16px 22px;
   max-width: 1200px;
   width: 90%;
-  margin-top: 12px;
+  margin-top: 0 !important;
   margin-left: 40px !important;
   margin-right: 60px !important;
   /* border: 2px solid red; */
@@ -255,7 +257,7 @@ body {
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
-  margin-top: 12px;
+  margin-top: 0 !important;
   margin-left: 0 !important;
 }
 
@@ -2023,8 +2025,8 @@ img,
   gap: 8px;
   padding: 0 32px 0 0;
   width: 100%;
-  margin-top: 35px;
-  margin-bottom: 0px;
+  margin-top: 0 !important;
+  margin-bottom: 0px !important;
   position: relative;
   /* Not fixed or absolute */
   z-index: 1;
@@ -2699,27 +2701,35 @@ input[type='radio'] {
 }
 
 .page-container {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    gap: 20px;
-  }
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 20px;
+  height: 100vh;
+  overflow: hidden;
+}
 
 .brand-sidebar-row {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 17%;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 17%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  z-index: 10;
+}
   
-  .main-content-row {
-    display: flex;
-    flex-direction: column;
-    width: 83%;
-    justify-content: flex-start;
-    align-items: stretch;
-    /* Removed margin-top */
-  }
+.main-content-row {
+  display: flex;
+  flex-direction: column;
+  width: 83%;
+  margin-left: 17%;
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
   
  .progress-bar-container {
   max-width: 80% ;
@@ -2727,7 +2737,7 @@ input[type='radio'] {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin: 0 auto 24px auto;
+  margin: 0 auto 2px auto;
   padding-top: 8px;
   margin-top:6px;
 }
