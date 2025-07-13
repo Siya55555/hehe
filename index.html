@@ -145,7 +145,6 @@
           </div>
         </div>
         <div class="wizard-step hidden" id="styles-step">
-
           <div class="wizard-card" id="styles-step-card">
             <div class="styles-tabs">
               <button class="styles-tab active" data-tab="theme"><span class="tab-icon">🎨</span> Theme</button>
@@ -687,10 +686,59 @@
             </div>
           </div>
         </div>
+        <!-- Summary Step Page (hidden by default) -->
+        <div class="wizard-step hidden" id="summary">
+          <div class="wizard-card summary-main-card">
+            <div class="summary-inner-card">
+              <div class="summary-title">Store Information</div>
+              <div class="data">Store Name: 
+                <span id="summary-store-name" class="data"></span></div>
+              <div class="summary-title">System Options</div>
+              <div class="data"><span id="summary-magento-version"></span></div>
+              <div class="summary-title">Styles</div>
+              <div class="data" id="logo-data" style="margin-bottom:6px;">Selected Theme: <span id="summary-theme"></span></div>
+              <div class="data" >
+                <div id="logo-data" style="margin-bottom:4px;">Logos Uploaded:</div>
+                 <ul>
+                  <li>Desktop Logo: <span id="summary-desktop-logo">No desktop logo uploaded</span></li>
+                  <li>Mobile Logo: <span id="summary-mobile-logo">No mobile logo uploaded</span></li>
+                </ul>
+              </div>
+              <div class="data">
+                <div  id="logo-data" >Brand Colours:</div>
+                <ul>
+                  <li>Primary Colour: <span class="summary-color-dot" ></span> <span id="summary-primary-colour">#4e54c8</span></li>
+                  <li>Secondary Colour: <span class="summary-color-dot"></span> <span id="summary-secondary-colour">#9f94fb</span></li>
+                  <li>Tertiary Colour: <span class="summary-color-dot" ></span> <span id="summary-tertiary-colour">#19b78a</span></li>
+                </ul>
+              </div>
+              <div class="data" class="logo-data">Fonts: <span id="summary-font" class="data">Using Default Theme Font</span></div>
+            </div>
+          </div>
+        </div>
+        <!-- Profile Page Section (hidden by default) -->
+        <div class="wizard-step hidden" id="profile-step">
+          <div class="wizard-card profile-main-card">
+            <div class="profile-title">My Profile</div>
+            <div class="profile-subtitle">Edit Profile Information</div>
+            <form class="profile-form">
+              <label for="profile-display-name" class="profile-label">Display Name</label>
+              <input type="text" id="profile-display-name" class="profile-input" value="Name User" />
+              <label for="profile-email" class="profile-label">Email</label>
+              <div class="profile-input-group">
+                <input type="email" id="profile-email" class="profile-input" value="name@email.com" />
+                <span class="profile-input-icon">&#10060;</span>
+              </div>
+              <button type="submit" class="profile-update-btn">Update Profile</button>
+            </form>
+          </div>
+        </div>
       </div>
     </main>
   </div>
-  <script src="script.js"></script>
+  <!-- Move script tag to just before closing body tag -->
+  <script src="./script.js"></script>
+  <script>alert('Inline JS works!');</script>
 </body>
 
 </html>
