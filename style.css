@@ -30,7 +30,7 @@ body {
   display: flex;
   flex-direction: column;
   padding: 20px 15px 2px 15px;
-  width: 200px;
+  width: 180px;
   background: linear-gradient(180deg, #e3eefd 0%, #d5e7fd 100%);
   z-index: 10;
   padding-top: 0;
@@ -183,7 +183,7 @@ body {
   cursor: pointer;
   border: none;
   transition: border 0.2s, box-shadow 0.2s;
-  width: 310px;
+  width: 300px;
   min-height: 70px;
   box-sizing: border-box;
   position: relative;
@@ -1794,8 +1794,8 @@ img,
 .version-dependency-card {
   background: #fff;
   border-radius: 8px;
-  min-width: 235px;
-  max-width: 235px;
+  min-width: 210px;
+  max-width: 210px;
   padding: 8px 4px 6px 4px;
   height: 45px;
   flex: 1 1 180px;
@@ -1857,9 +1857,9 @@ img,
 }
 
 .platform-option {
-  width: 320px !important;
-  min-width: 340px !important;
-  max-width: 340px !important;
+  width: 280px !important;
+  min-width: 300px !important;
+  max-width: 300px !important;
   min-height: 55px !important;
   height:85px!important;
 }
@@ -2153,11 +2153,10 @@ img,
 
 #styles-tab-theme > .wizard-card-tab,
 #styles-tab-logo>.wizard-card-tab {
-   max-width: 1000px !important;
+   max-width: 890px !important;
   width: 99vw !important;
   border-radius:6px;
 }
-
 #styles-tab-font>.wizard-card-tab {
   max-width: 500px !important;
   width: 100% !important;
@@ -2779,4 +2778,155 @@ input[type='radio'] {
   width: 100%;
   height: 100%;
   max-width: 1100px;
+}
+
+/* --- Responsive styles for mobile and tablet --- */
+@media (max-width: 1024px) {
+  .main-content-row {
+    width: 100%;
+    margin-left: 0;
+    padding: 0 4vw;
+  }
+  .brand-sidebar-row {
+    width: 220px;
+    min-width: 180px;
+  }
+  .wizard-card, .wizard-card-tab {
+    max-width: 98vw !important;
+    width: 98vw !important;
+    padding: 12px 4vw !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .brand-sidebar-row {
+    display: none;
+  }
+  .sidebar {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 60vw;
+    min-width: 180px;
+    max-width: 320px;
+    height: 100vh;
+    z-index: 1002;
+    background: #f3f8fa;
+    box-shadow: 0 4px 24px rgba(60,60,60,0.18);
+    padding: 20px 10px 2px 10px;
+  }
+  .hamburger-menu {
+    display: block !important;
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 1100;
+  }
+  .main-content-row {
+    width: 100vw;
+    margin-left: 0;
+    padding: 0 2vw;
+  }
+  .wizard-card, .wizard-card-tab {
+    max-width: 99vw !important;
+    width: 99vw !important;
+    padding: 10px 2vw !important;
+    font-size: 0.98rem !important;
+  }
+  .progress-bar-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    width: 98vw !important;
+    max-width: 99vw !important;
+    padding: 0 2vw;
+  }
+  .progress-bar-label {
+    font-size: 0.9rem !important;
+    margin-bottom: 2px;
+  }
+  .progress-bar-bg {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    height: 8px;
+  }
+  .wizard-title {
+    font-size: 1.1rem !important;
+  }
+  .wizard-desc, .wizard-label, .wizard-char-count, .wizard-name-available {
+    font-size: 0.9rem !important;
+  }
+  .wizard-input {
+    font-size: 1rem !important;
+    padding: 8px 12px 8px 8px !important;
+  }
+  .wizard-form-actions {
+    margin-top: 8px !important;
+  }
+  .wizard-step-content, .wizard-card-tab {
+    padding: 8px 2vw !important;
+  }
+  .colours-row {
+    flex-direction: column !important;
+    gap: 18px !important;
+    align-items: center !important;
+    margin: 12px 0 0 0 !important;
+    width: 100% !important;
+  }
+  .colour-col {
+    max-width: 100vw !important;
+    min-width: 0 !important;
+    width: 100% !important;
+    align-items: center !important;
+  }
+  .colour-circle {
+    width: 38px !important;
+    height: 38px !important;
+    margin-bottom: 10px !important;
+  }
+  .colour-small {
+    width: 18px !important;
+    height: 18px !important;
+  }
+  .colour-popup {
+    min-width: 120px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    top: 50px !important;
+    padding: 8px 8px 6px 8px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-content-row {
+    padding: 0 1vw;
+  }
+  .wizard-card, .wizard-card-tab {
+    max-width: 100vw !important;
+    width: 100vw !important;
+    padding: 6px 1vw !important;
+    font-size: 0.93rem !important;
+  }
+  .wizard-title {
+    font-size: 1rem !important;
+  }
+  .progress-bar-label {
+    font-size: 0.8rem !important;
+  }
+  .colour-circle {
+    width: 28px !important;
+    height: 28px !important;
+    margin-bottom: 8px !important;
+  }
+  .colour-small {
+    width: 12px !important;
+    height: 12px !important;
+  }
+  .colour-popup {
+    min-width: 80px !important;
+    top: 38px !important;
+    padding: 4px 4px 4px 4px !important;
+  }
 }
