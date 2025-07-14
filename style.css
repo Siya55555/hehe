@@ -25,7 +25,7 @@ body {
   left: unset;
   height: 898px;
   min-height: unset;
-  box-shadow: 0 4px 24px rgba(41, 79, 218, 0.08);
+  box-shadow: 0 8px 32px 0 rgba(60, 60, 60, 0.18);
   border-radius: 0 8px 8px 0;
   display: flex;
   flex-direction: column;
@@ -2504,16 +2504,6 @@ input[type='radio'] {
 .colour-circle {
   box-shadow: 0 0 24px 12px red !important;
 }
-
-/* FINAL DEBUG: Force strong visible shadow on large color circles */
-/* .colour-circle {
-  box-shadow: 0 0 32px 16px #ff0000 !important;
-} */
-
-/* FINAL: Ensure colored shadow is always visible for large color circles */
-/* .colours-row .colour-circle {
-  box-shadow: 0 0 16px 6px var(--colour-circle-shadow, rgba(41, 79, 218, 0.25)) !important;
-} */
 
 /* Ensure the shadow wrapper allows the shadow to show */
 .colour-circle-shadow-wrapper {
