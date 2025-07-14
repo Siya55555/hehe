@@ -1,10 +1,40 @@
 window.addEventListener('DOMContentLoaded', function () {
-  const storeInfoCard = document.getElementById('store-info-card');
-  const systemStepWrapper = document.querySelector('.wizard-step-system');
-  const systemStepCard = document.getElementById('system-step-card');
+  // Step wrappers for new structure (move to top for hoisting)
+  const storeInfoStep = document.getElementById('store-info-step');
+  const systemStep = document.getElementById('system-step');
+  const stylesStep = document.getElementById('styles-step');
+  const pluginStep = document.getElementById('plugin-step');
+  const summaryStep = document.getElementById('summary');
+  const profileStep = document.getElementById('profile-step');
+  const mySitesStep = document.getElementById('mysites-step');
+
+  // Add nextBtn for Store Info step
+  const nextBtn = document.getElementById('store-next-btn');
+
+  // Debug: log all footer-btns
+  const allFooterBtns = document.querySelectorAll('.footer-btn');
+  allFooterBtns.forEach((btn, i) => {
+    console.log(`Footer btn ${i}:`, btn.textContent.trim());
+  });
+
+  // Try to select the Profile button more robustly
+  const profileBtn = Array.from(allFooterBtns).find(btn => btn.textContent.trim().toLowerCase().includes('profile'));
+  console.log('Profile button found:', !!profileBtn);
+
+  if (profileBtn && profileStep) {
+    profileBtn.addEventListener('click', function () {
+      console.log('Profile button clicked');
+      hideAllSteps();
+      if (mySitesStep) {
+        mySitesStep.classList.add('hidden');
+        mySitesStep.style.display = 'none';
+      }
+      profileStep.classList.remove('hidden');
+      profileStep.style.display = 'block';
+    });
+  }
   const systemBackBtn = document.getElementById('system-back-btn');
   const systemNextBtn = document.getElementById('system-next-btn');
-  const nextBtn = document.getElementById('store-next-btn');
   const storeNameInput = document.getElementById('storeName');
   const charCount = document.querySelector('.wizard-char-count');
   const checkmark = document.querySelector('.wizard-input-check');
@@ -107,19 +137,9 @@ window.addEventListener('DOMContentLoaded', function () {
     charCount.textContent = `${value.length} / 14`;
     const nameAvailable = document.querySelector('.wizard-name-available');
     if (nextBtn) {
-      if (value.length > 0 && value.length <= 14) {
-        checkmark.style.visibility = 'visible';
-        nextBtn.disabled = false;
-        nextBtn.classList.remove('disabled');
-        if (nameAvailable) nameAvailable.classList.remove('hidden');
-        storeNameInput.classList.add('valid-input');
-      } else {
-        checkmark.style.visibility = 'hidden';
-        nextBtn.disabled = true;
-        nextBtn.classList.add('disabled');
-        if (nameAvailable) nameAvailable.classList.add('hidden');
-        storeNameInput.classList.remove('valid-input');
-      }
+      checkmark.style.visibility = value.length > 0 && value.length <= 14 ? 'visible' : 'hidden';
+      if (nameAvailable) nameAvailable.classList.remove('hidden');
+      storeNameInput.classList.add('valid-input');
     }
     // Update validation state
     validateStoreInfo();
@@ -208,13 +228,8 @@ window.addEventListener('DOMContentLoaded', function () {
     const platformSelected = Array.from(platformOptions).some(opt => opt.classList.contains('selected'));
     const versionSelected = !!selectedVersion;
     if (systemNextBtn) {
-      if (platformSelected && versionSelected) {
-        systemNextBtn.disabled = false;
-        systemNextBtn.classList.remove('disabled');
-      } else {
-        systemNextBtn.disabled = true;
-        systemNextBtn.classList.add('disabled');
-      }
+      systemNextBtn.disabled = false;
+      systemNextBtn.classList.remove('disabled');
     }
     // Update validation state
     validateSystem();
@@ -233,8 +248,6 @@ window.addEventListener('DOMContentLoaded', function () {
   });
 
   // --- Styles Step Logic ---
-  const stylesStepCard = document.getElementById('styles-step-card');
-  const stylesStepWrapper = document.getElementById('styles-step');
   const stylesTabs = document.querySelectorAll('.styles-tab');
   const themeRadios = document.querySelectorAll('.theme-radio');
   const themePreviewBtns = document.querySelectorAll('.theme-preview-btn');
@@ -256,8 +269,8 @@ window.addEventListener('DOMContentLoaded', function () {
       updateSidebarSteps(4);
       updateTopbarVisibility('plugin');
     });
-    stylesNextBtn.disabled = false;
-    stylesNextBtn.classList.remove('disabled');
+    // stylesNextBtn.disabled = false; // Commented out as per edit hint
+    // stylesNextBtn.classList.remove('disabled'); // Commented out as per edit hint
   }
   const themePreviewBtnMain = document.getElementById('theme-preview-btn-main');
   const themePreviewMessage = document.getElementById('theme-preview-message');
@@ -292,7 +305,7 @@ window.addEventListener('DOMContentLoaded', function () {
       }
       // Update validation state
       validateStyles();
-      updateStylesNextBtn();
+      // updateStylesNextBtn(); // Commented out as per edit hint
       // Hide inline message when a theme is selected
       if (themePreviewMessage) {
         themePreviewMessage.textContent = '';
@@ -366,6 +379,35 @@ window.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  // Add click listeners to sidebar step buttons to open the corresponding step page
+  sidebarSteps.forEach(btn => {
+    btn.addEventListener('click', function() {
+      const stepNum = parseInt(btn.getAttribute('data-step'));
+      hideAllSteps();
+      let stepToShow = null;
+      if (stepNum === 1) stepToShow = storeInfoStep;
+      if (stepNum === 2) stepToShow = systemStep;
+      if (stepNum === 3) stepToShow = stylesStep;
+      if (stepNum === 4) stepToShow = pluginStep;
+      if (stepNum === 5) stepToShow = summaryStep;
+      if (stepToShow) {
+        stepToShow.classList.remove('hidden');
+        stepToShow.style.display = 'block';
+      }
+      // Update progress bar
+      const progressBarLabel = document.querySelector('.progress-bar-label');
+      const progressBarFill = document.querySelector('.progress-bar-fill');
+      if (progressBarLabel && progressBarFill) {
+        progressBarLabel.textContent = `Step ${stepNum} of 5`;
+        progressBarFill.style.width = `${stepNum * 20}%`;
+      }
+      updateSidebarSteps(stepNum);
+      // Optionally update topbar visibility
+      const stepNames = ['store-info', 'system', 'styles', 'plugin', 'summary'];
+      updateTopbarVisibility(stepNames[stepNum-1]);
+    });
+  });
+
   // Initial state: Store Info (step 1)
   updateSidebarSteps(1);
 
@@ -393,14 +435,15 @@ window.addEventListener('DOMContentLoaded', function () {
   }
 
   // --- Store Info Next Step ---
-  const storeNextBtn = document.getElementById('store-next-btn');
-
-  if (storeNextBtn) {
-    storeNextBtn.addEventListener('click', function(e) {
+  if (nextBtn) {
+    nextBtn.disabled = false;
+    nextBtn.classList.remove('disabled');
+    nextBtn.removeAttribute('aria-disabled');
+    nextBtn.addEventListener('click', function(e) {
       e.preventDefault();
       hideAllSteps();
-      systemStepWrapper.classList.remove('hidden');
-      systemStepWrapper.style.display = 'block';
+      systemStep.classList.remove('hidden');
+      systemStep.style.display = 'block';
       document.querySelector('.progress-bar-label').textContent = 'Step 2 of 5';
       document.querySelector('.progress-bar-fill').style.width = '40%';
       updateSidebarSteps(2);
@@ -411,9 +454,9 @@ window.addEventListener('DOMContentLoaded', function () {
   // System Step navigation (attach globally)
   if (systemBackBtn) {
     systemBackBtn.addEventListener('click', function () {
-      systemStepWrapper.classList.add('hidden');
+      systemStep.classList.add('hidden');
       storeInfoCard.classList.remove('hidden');
-      stylesStepWrapper.classList.add('hidden');
+      stylesStep.classList.add('hidden');
       document.querySelector('.progress-bar-label').textContent = 'Step 1 of 5';
       document.querySelector('.progress-bar-fill').style.width = '20%';
       updateSidebarSteps(1);
@@ -421,9 +464,12 @@ window.addEventListener('DOMContentLoaded', function () {
     });
   }
   if (systemNextBtn) {
+    systemNextBtn.disabled = false;
+    systemNextBtn.classList.remove('disabled');
+    systemNextBtn.removeAttribute('aria-disabled');
     systemNextBtn.addEventListener('click', function () {
-      systemStepWrapper.classList.add('hidden');
-      stylesStepWrapper.classList.remove('hidden');
+      systemStep.classList.add('hidden');
+      stylesStep.classList.remove('hidden');
       document.querySelector('.progress-bar-label').textContent = 'Step 3 of 5';
       document.querySelector('.progress-bar-fill').style.width = '60%';
       updateSidebarSteps(3);
@@ -435,8 +481,8 @@ window.addEventListener('DOMContentLoaded', function () {
   const stylesBackBtn = document.getElementById('styles-back-btn');
   if (stylesBackBtn) {
     stylesBackBtn.addEventListener('click', function () {
-      stylesStepWrapper.classList.add('hidden');
-      systemStepWrapper.classList.remove('hidden');
+      stylesStep.classList.add('hidden');
+      systemStep.classList.remove('hidden');
       document.querySelector('.progress-bar-label').textContent = 'Step 2 of 5';
       document.querySelector('.progress-bar-fill').style.width = '40%';
       updateSidebarSteps(2);
@@ -444,8 +490,11 @@ window.addEventListener('DOMContentLoaded', function () {
     });
   }
   if (stylesNextBtn) {
+    stylesNextBtn.disabled = false;
+    stylesNextBtn.classList.remove('disabled');
+    stylesNextBtn.removeAttribute('aria-disabled');
     stylesNextBtn.addEventListener('click', function () {
-      stylesStepWrapper.classList.add('hidden');
+      stylesStep.classList.add('hidden');
       const pluginStep = document.getElementById('plugin-step');
       if (pluginStep) pluginStep.classList.remove('hidden');
       document.querySelector('.progress-bar-label').textContent = 'Step 4 of 5';
@@ -453,13 +502,14 @@ window.addEventListener('DOMContentLoaded', function () {
       updateSidebarSteps(4);
       updateTopbarVisibility('plugin');
     });
-    stylesNextBtn.disabled = false;
-    stylesNextBtn.classList.remove('disabled');
   }
 
   // Plugin step next button logic
   const pluginNextBtn = document.getElementById('plugin-next-btn');
   if (pluginNextBtn) {
+    pluginNextBtn.disabled = false;
+    pluginNextBtn.classList.remove('disabled');
+    pluginNextBtn.removeAttribute('aria-disabled');
     pluginNextBtn.addEventListener('click', function () {
       // Proceed to summary or final step
       showToast('All steps completed! Proceeding to summary...');
@@ -468,8 +518,6 @@ window.addEventListener('DOMContentLoaded', function () {
       document.querySelector('.progress-bar-fill').style.width = '100%';
       updateSidebarSteps(5);
     });
-    pluginNextBtn.disabled = false;
-    pluginNextBtn.classList.remove('disabled');
   }
 
   // Toast notification system initialized
@@ -644,20 +692,17 @@ window.addEventListener('DOMContentLoaded', function () {
   }
 
   function updateLargeCircleShadows() {
-    // For each color, update the box-shadow color of the corresponding large circle's shadow wrapper
+    // For each color, update the box-shadow color of the corresponding large circle
     const largeCircles = [
-      { key: 'primary', selector: '.colour-circle-shadow-inner', circle: '.colour-circle.colour-primary' },
-      { key: 'secondary', selector: '.colour-circle-shadow-inner', circle: '.colour-circle.colour-secondary' },
-      { key: 'tertiary', selector: '.colour-circle-shadow-inner', circle: '.colour-circle.colour-tertiary' }
+      { key: 'primary', selector: '.colour-circle.colour-primary' },
+      { key: 'secondary', selector: '.colour-circle.colour-secondary' },
+      { key: 'tertiary', selector: '.colour-circle.colour-tertiary' }
     ];
-    largeCircles.forEach(({ key, selector, circle }) => {
-      const circleEl = document.querySelector(circle);
+    largeCircles.forEach(({ key, selector }) => {
+      const circleEl = document.querySelector(selector);
       if (!circleEl) return;
-      const shadowEl = circleEl.closest('.colour-circle-shadow-outer')?.querySelector('.colour-circle-shadow-inner');
-      if (shadowEl) {
-        shadowEl.style.boxShadow = `0 0 19px 8px ${hexToRgba(currentColors[key], 0.7)}`;
-        
-      }
+      // Use a strong, visible shadow with the current color
+      circleEl.style.boxShadow = `0 0 24px 8px ${hexToRgba(currentColors[key], 0.55)}`;
     });
   }
 
@@ -691,7 +736,7 @@ window.addEventListener('DOMContentLoaded', function () {
         currentColors[key] = color;
         updatePreviewColors();
         updateColourCircleEffects(); // Call this function after a color is picked
-        // Hide popup
+        // Hide popup after color is picked
         popup.classList.remove('active');
       });
     });
@@ -804,38 +849,48 @@ window.addEventListener('DOMContentLoaded', function () {
 
   const topbarBackBtn = document.getElementById('wizard-topbar-back');
   const topbarNextBtn = document.getElementById('wizard-topbar-next');
-  const pluginStep = document.getElementById('plugin-step');
-  const summaryStep = document.getElementById('summary');
 
+  // Update hideAllSteps to hide all .wizard-step containers
   function hideAllSteps() {
-    storeInfoCard.classList.add('hidden');
-    storeInfoCard.style.display = 'none';
-    systemStepWrapper.classList.add('hidden');
-    systemStepWrapper.style.display = 'none';
-    stylesStepWrapper.classList.add('hidden');
-    stylesStepWrapper.style.display = 'none';
-    pluginStep.classList.add('hidden');
-    pluginStep.style.display = 'none';
-    summaryStep.classList.add('hidden');
-    summaryStep.style.display = 'none';
+    [storeInfoStep, systemStep, stylesStep, pluginStep, summaryStep, profileStep, mySitesStep].forEach(step => {
+      if (step) {
+        step.classList.add('hidden');
+        step.style.display = 'none';
+      }
+    });
   }
+
+  // Update navigation logic to show/hide the correct step wrappers
+  // Example for Store Info Next Step
+  // if (storeNextBtn) { // This line is removed as per the edit hint
+  //   storeNextBtn.addEventListener('click', function(e) { // This line is removed as per the edit hint
+  //     e.preventDefault(); // This line is removed as per the edit hint
+  //     hideAllSteps(); // This line is removed as per the edit hint
+  //     systemStep.classList.remove('hidden'); // This line is removed as per the edit hint
+  //     systemStep.style.display = 'block'; // This line is removed as per the edit hint
+  //     document.querySelector('.progress-bar-label').textContent = 'Step 2 of 5'; // This line is removed as per the edit hint
+  //     document.querySelector('.progress-bar-fill').style.width = '40%'; // This line is removed as per the edit hint
+  //     updateSidebarSteps(2); // This line is removed as per the edit hint
+  //     updateTopbarVisibility('system'); // This line is removed as per the edit hint
+  //   }); // This line is removed as per the edit hint
+  // } // This line is removed as per the edit hint
 
   if (topbarBackBtn) {
     topbarBackBtn.addEventListener('click', function () {
-      if (!systemStepWrapper.classList.contains('hidden')) {
+      if (!systemStep.classList.contains('hidden')) {
         // System step: Back to Store Info
         hideAllSteps();
-        storeInfoCard.classList.remove('hidden');
-        storeInfoCard.style.display = 'block';
+        storeInfoStep.classList.remove('hidden');
+        storeInfoStep.style.display = 'block';
         document.querySelector('.progress-bar-label').textContent = 'Step 1 of 5';
         document.querySelector('.progress-bar-fill').style.width = '20%';
         updateSidebarSteps(1);
         updateTopbarVisibility('store-info');
-      } else if (!stylesStepWrapper.classList.contains('hidden')) {
+      } else if (!stylesStep.classList.contains('hidden')) {
         // Styles step: Back to System
         hideAllSteps();
-        systemStepWrapper.classList.remove('hidden');
-        systemStepWrapper.style.display = 'block';
+        systemStep.classList.remove('hidden');
+        systemStep.style.display = 'block';
         document.querySelector('.progress-bar-label').textContent = 'Step 2 of 5';
         document.querySelector('.progress-bar-fill').style.width = '40%';
         updateSidebarSteps(2);
@@ -843,8 +898,8 @@ window.addEventListener('DOMContentLoaded', function () {
       } else if (!pluginStep.classList.contains('hidden')) {
         // Plugin step: Back to Styles
         hideAllSteps();
-        stylesStepWrapper.classList.remove('hidden');
-        stylesStepWrapper.style.display = 'block';
+        stylesStep.classList.remove('hidden');
+        stylesStep.style.display = 'block';
         document.querySelector('.progress-bar-label').textContent = 'Step 3 of 5';
         document.querySelector('.progress-bar-fill').style.width = '60%';
         updateSidebarSteps(3);
@@ -864,27 +919,19 @@ window.addEventListener('DOMContentLoaded', function () {
 
   if (topbarNextBtn) {
     topbarNextBtn.addEventListener('click', function () {
-      if (!systemStepWrapper.classList.contains('hidden')) {
+      if (!systemStep.classList.contains('hidden')) {
         // System step: Next to Styles
-        if (!validateSystem()) {
-          const message = getValidationMessage('system');
-          if (message) showToast(message);
-          return;
-        }
+        // (Validation removed)
         hideAllSteps();
-        stylesStepWrapper.classList.remove('hidden');
-        stylesStepWrapper.style.display = 'block';
+        stylesStep.classList.remove('hidden');
+        stylesStep.style.display = 'block';
         document.querySelector('.progress-bar-label').textContent = 'Step 3 of 5';
         document.querySelector('.progress-bar-fill').style.width = '60%';
         updateSidebarSteps(3);
         updateTopbarVisibility('styles');
-      } else if (!stylesStepWrapper.classList.contains('hidden')) {
+      } else if (!stylesStep.classList.contains('hidden')) {
         // Styles step: Next to Plugin
-        if (!validateStyles()) {
-          const message = getValidationMessage('styles');
-          if (message) showToast(message);
-          return;
-        }
+        // (Validation removed)
         hideAllSteps();
         pluginStep.classList.remove('hidden');
         pluginStep.style.display = 'block';
@@ -934,7 +981,6 @@ window.addEventListener('DOMContentLoaded', function () {
             if (themeCard) {
               const themeTitle = themeCard.querySelector('.theme-title');
               if (themeTitle) {
-                // Only use the text node (exclude any span or extra info)
                 selectedTheme = themeTitle.childNodes[0].textContent.trim();
               }
             }
@@ -943,52 +989,7 @@ window.addEventListener('DOMContentLoaded', function () {
         if (summaryTheme) {
           summaryTheme.textContent = selectedTheme || 'Not selected';
         }
-        // Update summary logos uploaded
-        const desktopLogoInput = document.getElementById('desktop-logo');
-        const summaryDesktopLogo = document.getElementById('summary-desktop-logo');
-        if (desktopLogoInput && summaryDesktopLogo) {
-          if (desktopLogoInput.files && desktopLogoInput.files[0]) {
-            summaryDesktopLogo.textContent = desktopLogoInput.files[0].name;
-          } else {
-            summaryDesktopLogo.textContent = 'No desktop logo uploaded';
-          }
-        }
-        const mobileLogoInput = document.getElementById('mobile-logo');
-        const summaryMobileLogo = document.getElementById('summary-mobile-logo');
-        if (mobileLogoInput && summaryMobileLogo) {
-          if (mobileLogoInput.files && mobileLogoInput.files[0]) {
-            summaryMobileLogo.textContent = mobileLogoInput.files[0].name;
-          } else {
-            summaryMobileLogo.textContent = 'No mobile logo uploaded';
-          }
-        }
-        // Update summary brand colors
-        const summaryPrimaryColour = document.getElementById('summary-primary-colour');
-        const summarySecondaryColour = document.getElementById('summary-secondary-colour');
-        const summaryTertiaryColour = document.getElementById('summary-tertiary-colour');
-        const summaryPrimaryDot = summaryPrimaryColour ? summaryPrimaryColour.previousElementSibling : null;
-        const summarySecondaryDot = summarySecondaryColour ? summarySecondaryColour.previousElementSibling : null;
-        const summaryTertiaryDot = summaryTertiaryColour ? summaryTertiaryColour.previousElementSibling : null;
-        // Get current color values from pickers
-        const primaryPicker = document.getElementById('primary-colour-picker');
-        const secondaryPicker = document.getElementById('secondary-colour-picker');
-        const tertiaryPicker = document.getElementById('tertiary-colour-picker');
-        if (primaryPicker && summaryPrimaryColour && summaryPrimaryDot) {
-          const color = primaryPicker.style.background || '#4e54c8';
-          summaryPrimaryColour.textContent = color;
-          summaryPrimaryDot.style.background = color;
-        }
-        if (secondaryPicker && summarySecondaryColour && summarySecondaryDot) {
-          const color = secondaryPicker.style.background || '#9f94fb';
-          summarySecondaryColour.textContent = color;
-          summarySecondaryDot.style.background = color;
-        }
-        if (tertiaryPicker && summaryTertiaryColour && summaryTertiaryDot) {
-          const color = tertiaryPicker.style.background || '#19b78a';
-          summaryTertiaryColour.textContent = color;
-          summaryTertiaryDot.style.background = color;
-        }
-        // Update summary fonts
+        // Update summary font
         const summaryFont = document.getElementById('summary-font');
         const defaultFontCheckbox = document.getElementById('default-font-checkbox');
         const fontPreviewBox = document.getElementById('font-preview-box');
@@ -1028,6 +1029,39 @@ window.addEventListener('DOMContentLoaded', function () {
       btn.removeAttribute('aria-disabled');
     }
   });
+
+  // Profile button logic
+  // const profileBtn = Array.from(document.querySelectorAll('.footer-btn')).find(btn => btn.textContent.trim().startsWith('Profile'));
+  // const profileStep = document.getElementById('profile-step');
+  // if (profileBtn && profileStep) {
+  //   profileBtn.addEventListener('click', function () {
+  //     console.log('Profile button clicked'); // Debug log
+  //     hideAllSteps();
+  //     profileStep.classList.remove('hidden');
+  //     profileStep.style.display = 'block';
+  //     // Optionally, update sidebar or topbar to reflect profile view
+  //   });
+  // }
+  // My Sites button logic
+  const mySitesBtn = Array.from(allFooterBtns).find(btn => btn.textContent.trim().toLowerCase().includes('my sites'));
+  if (mySitesBtn && mySitesStep) {
+    mySitesBtn.addEventListener('click', function () {
+      hideAllSteps();
+      if (profileStep) {
+        profileStep.classList.add('hidden');
+        profileStep.style.display = 'none';
+      }
+      mySitesStep.classList.remove('hidden');
+      mySitesStep.style.display = 'block';
+    });
+  }
+  // At the end of DOMContentLoaded handler, after all step variable declarations and functions
+  hideAllSteps();
+  if (storeInfoStep) {
+    storeInfoStep.classList.remove('hidden');
+    storeInfoStep.style.display = 'block';
+    console.log('Store Info step classes:', storeInfoStep.className, 'Display:', storeInfoStep.style.display);
+  }
 });
 
 // Show selected filename for custom file inputs
@@ -1142,6 +1176,7 @@ function setupFontDropdown() {
   const fontOptions = fontDropdown ? fontDropdown.querySelectorAll('.font-option') : [];
   const fontPreviewBox = document.getElementById('font-preview-box');
   const defaultFontCheckbox = document.getElementById('default-font-checkbox');
+  const fontSearchArrow = document.getElementById('font-search-arrow');
 
   // Always show placeholder in search box
   if (fontDropdownTrigger) {
@@ -1164,11 +1199,26 @@ function setupFontDropdown() {
     fontDropdownTrigger.addEventListener('click', function (e) {
       e.stopPropagation();
       fontDropdown.classList.toggle('hidden');
+      if (fontSearchArrow) fontSearchArrow.classList.toggle('open', !fontDropdown.classList.contains('hidden'));
     });
     // Hide dropdown if click outside
     document.addEventListener('click', function (e) {
-      if (!fontDropdown.contains(e.target) && e.target !== fontDropdownTrigger) {
+      if (!fontDropdown.contains(e.target) && e.target !== fontDropdownTrigger && e.target !== fontSearchArrow) {
         fontDropdown.classList.add('hidden');
+        if (fontSearchArrow) fontSearchArrow.classList.remove('open');
+      }
+    });
+  }
+
+  // Toggle dropdown on arrow click
+  if (fontSearchArrow && fontDropdown && fontDropdownTrigger) {
+    fontSearchArrow.addEventListener('click', function (e) {
+      e.stopPropagation();
+      fontDropdown.classList.toggle('hidden');
+      fontSearchArrow.classList.toggle('open', !fontDropdown.classList.contains('hidden'));
+      // Focus the input when opening
+      if (!fontDropdown.classList.contains('hidden')) {
+        fontDropdownTrigger.focus();
       }
     });
   }
@@ -1189,6 +1239,7 @@ function setupFontDropdown() {
       // Close dropdown
       if (fontDropdown) {
         fontDropdown.classList.add('hidden');
+        if (fontSearchArrow) fontSearchArrow.classList.remove('open');
       }
       // Do NOT update the search box text, keep placeholder only
     });
